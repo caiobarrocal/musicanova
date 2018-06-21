@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html ng-app="nodeMusic">
+  <head>
+    <title>USPotify</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" media="screen">
+  </head>
+  <body ng-controller="mainController">
+    <!-- Cadastro de Álbuns -->
+    <div class="container">
+
+      <div class="container">
+
+        <h2> Cadastro de Álbuns </h2>
+        <form>
+          <div class="form-group">
+            <label>Id do Album: </label>
+            <input type="text" class="form-control input-lg" placeholder="ID" ng-model="formAlbum.id"> <br />
+
+            <label>Nome do Album: </label>
+            <input type="text" class="form-control input-lg" placeholder="Nome" ng-model="formAlbum.nome"> <br />
+
+            <label>Produtora: </label>
+            <input type="text" class="form-control input-lg" placeholder="Produtora" ng-model="formAlbum.prod"> <br />
+
+            <label>Tipo do Album: </label>
+            <input type="text" class="form-control input-lg" placeholder="Album, EP ou Single" ng-model="formAlbum.tipo"> <br />
+
+            <label>Duração: </label>
+            <input type="text" class="form-control input-lg" placeholder="00:00:00" ng-model="formAlbum.dur"> <br />
+
+            <label>Foto de Capa: </label>
+            <input type="text" class="form-control input-lg" placeholder="Caminho da imagem" ng-model="formAlbum.foto"> <br />
+
+            <label>Ano do Álbum: </label>
+            <input type="text" class="form-control input-lg" placeholder="2000" ng-model="formAlbum.ano"> <br />
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg" ng-click="createAlbum()">Cadastrar Album</button>
+
+        </form>
+
+      </div>
+      <div class="container">
+
+        <h2> Remover um Álbum </h2>
+        <form>
+          <div class="form-group">
+            <label>Id do Album: </label>
+            <input id = "id_r_album" type="text" class="form-control input-lg" placeholder="ID" ng-model="formDelAlbum.id"> <br />
+
+            <label>Nome do Album: </label>
+            <input type="text" class="form-control input-lg" placeholder="Nome" ng-model="formDelAlbum.nome"> <br />
+
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg" ng-click="deleteAlbum(String(document.getElementById('id_r_album').value))">Remover Album</button>
+
+        </form>
+      </div>
+
+    </div>
+    <script src="//code.jquery.com/jquery-2.2.4.min.js" type="text/javascript"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.6/angular.min.js"></script>
+    <script src="javascripts/app.js"></script>
+  </body>
+</html>

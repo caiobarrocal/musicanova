@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html ng-app="nodeMusic">
+  <head>
+    <title>USPotify</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" media="screen">
+  </head>
+  <body ng-controller="mainController">
+    <!-- Cadastro de Álbuns -->
+    <div class="container">
+
+      <h2> Cadastro de Álbuns </h2>
+
+      <div class="container">
+        <form>
+          <div class="form-group">
+            <label>Id do Album: </label>
+            <input type="text" class="form-control input-lg" placeholder="ID" ng-model="formAlbum.id"> <br />
+
+            <label>Nome do Album: </label>
+            <input type="text" class="form-control input-lg" placeholder="Nome" ng-model="formAlbum.nome"> <br />
+
+            <label>Produtora: </label>
+            <input type="text" class="form-control input-lg" placeholder="Produtora" ng-model="formAlbum.prod"> <br />
+
+            <label>Tipo do Album: </label>
+            <input type="text" class="form-control input-lg" placeholder="Album, EP ou Single" ng-model="formAlbum.tipo"> <br />
+
+            <label>Duração: </label>
+            <input type="text" class="form-control input-lg" placeholder="00:00:00" ng-model="formAlbum.dur"> <br />
+
+            <label>Foto de Capa: </label>
+            <input type="text" class="form-control input-lg" placeholder="Caminho da imagem" ng-model="formAlbum.foto"> <br />
+
+            <label>Ano do Álbum: </label>
+            <input type="text" class="form-control input-lg" placeholder="2000" ng-model="formAlbum.ano"> <br />
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg" ng-click="createAlbum()">Cadastrar Album</button>
+
+        </form>
+      </div>
+      <!-- Cadastro de Álbuns -->
+      <div class="container">
+
+      <h2> Cadastro de Artistas </h2>
+
+      <div class="container">
+        <form>
+          <div class="form-group">
+            <label>Id do Artista: </label>
+            <input type="text" class="form-control input-lg" placeholder="ID" ng-model="formArtista.id"> <br />
+
+            <label>Nome do Artista (ou banda): </label>
+            <input type="text" class="form-control input-lg" placeholder="Nome" ng-model="formArtista.nome"> <br />
+
+            <label>Biografia: </label>
+            <input type="text" class="form-control input-lg" placeholder="Este artista nasceu em..." ng-model="formArtista.bio"> <br />
+
+            <label>Foto de Perfil: </label>
+            <input type="text" class="form-control input-lg" placeholder="Caminho para foto no servidor" ng-model="formArtista.foto"> <br />
+
+            <label>Verificado: </label>
+            <input type="text" class="form-control input-lg" placeholder="True or False" ng-model="formArtista.verif"> <br />
+
+            <label>Pais do Artista </label>
+            <input type="text" class="form-control input-lg" placeholder="Pais" ng-model="formArtista.p"> <br />
+
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg" ng-click="createArtist()">Cadastrar Artista</button>
+
+        </form>
+      </div>
+
+      <!-- Cadastro de Músicas -->
+      <div class="container">
+
+      <h2> Cadastro de Músicas </h2>
+
+      <div class="container">
+        <form>
+          <div class="form-group">
+            <label>Id da Música: </label>
+            <input type="text" class="form-control input-lg" placeholder="ID" ng-model="formMusic.id"> <br />
+
+            <label>Título: </label>
+            <input type="text" class="form-control input-lg" placeholder="Titulo da Música" ng-model="formMusic.titulo"> <br />
+
+            <label>Arquivo de Áudio: </label>
+            <input type="text" class="form-control input-lg" placeholder="caminho..." ng-model="formMusic.arquivo"> <br />
+
+            <label>Explícita: </label>
+            <input type="text" class="form-control input-lg" placeholder="Indicador booleano de explícita" ng-model="formMusic.exp"> <br />
+
+            <label>Id do Album : </label>
+            <input type="text" class="form-control input-lg" placeholder="ID do Album a qual Pertence" ng-model="formMusic.album"> <br />
+
+            <label>Número da Faixa </label>
+            <input type="text" class="form-control input-lg" placeholder="0" ng-model="formMusic.faixa"> <br />
+
+            <label>Duração </label>
+            <input type="text" class="form-control input-lg" placeholder="00:00:00" ng-model="formMusic.dur"> <br />
+
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg" ng-click="createMusic()">Cadastrar Música</button>
+
+        </form>
+      </div>
+
+      <!-- Cadastro de Usuários -->
+      <div class="container">
+
+      <h2> Cadastro de Usuários </h2>
+
+      <div class="container">
+        <form>
+          <div class="form-group">
+            <label>Id do Usuário: </label>
+            <input type="text" class="form-control input-lg" placeholder="ID" ng-model="formUser.id"> <br />
+
+            <label>Nome: </label>
+            <input type="text" class="form-control input-lg" placeholder="Fulano da Silva" ng-model="formUser.nome"> <br />
+
+            <label>Data de Nascimento: </label>
+            <input type="text" class="form-control input-lg" placeholder="MO-DA-YEAR" ng-model="formUser.datan"> <br />
+
+            <label>País: </label>
+            <input type="text" class="form-control input-lg" placeholder="US" ng-model="formUser.pais"> <br />
+
+
+            <label>Foto de Perfil </label>
+            <input type="text" class="form-control input-lg" placeholder="http://foto" ng-model="formUser.foto"> <br />
+
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg" ng-click="createUser()">Cadastrar Usuário</button>
+
+        </form>
+      </div>
+
+      <!-- Criação de Playlists -->
+      <div class="container">
+
+      <h2> Criação de Playlists </h2>
+
+      <div class="container">
+        <form>
+          <div class="form-group">
+            <label>Id da Playlist: </label>
+            <input type="text" class="form-control input-lg" placeholder="ID" ng-model="formPlay.id"> <br />
+
+            <label>Nome da Playlist: </label>
+            <input type="text" class="form-control input-lg" placeholder="Escolha um nome para sua playlist" ng-model="formPlay.nome"> <br />
+
+            <label>Descrição: </label>
+            <input type="text" class="form-control input-lg" placeholder="Conte ao público o que sua playlist reune..." ng-model="formPlay.desc"> <br />
+
+            <label>Foto: </label>
+            <input type="text" class="form-control input-lg" placeholder="Caminho" ng-model="formPlay.foto"> <br />
+
+            <label>Sua Playlist é pública? </label>
+            <input type="text" class="form-control input-lg" placeholder="True or False" ng-model="formPlay.pub"> <br />
+
+            <label>Criador: </label>
+            <input type="text" class="form-control input-lg" placeholder="ID do Criador" ng-model="formPlay.criador"> <br />
+
+            <label>Sua Playlist é colaborativa? </label>
+            <input type="text" class="form-control input-lg" placeholder="True or False" ng-model="formPlay.colab"> <br />
+
+            <label>Duração </label>
+            <input type="text" class="form-control input-lg" placeholder="00:00:00" ng-model="formPlay.dur"> <br />
+
+
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg" ng-click="createPlaylist()">Criar Playlist</button>
+
+        </form>
+      </div>
+
+    </div>
+    <script src="//code.jquery.com/jquery-2.2.4.min.js" type="text/javascript"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.6/angular.min.js"></script>
+    <script src="javascripts/app.js"></script>
+  </body>
+</html>

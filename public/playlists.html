@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html ng-app="nodeMusic">
+  <head>
+    <title>USPotify</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" media="screen">
+  </head>
+  <body ng-controller="mainController">
+    
+      <!-- Criação de Playlists -->
+      <div class="container">
+
+      <h2> Criação de Playlists </h2>
+
+      <div class="container">
+        <form>
+          <div class="form-group">
+            <label>Id da Playlist: </label>
+            <input type="text" class="form-control input-lg" placeholder="ID" ng-model="formPlay.id"> <br />
+
+            <label>Nome da Playlist: </label>
+            <input type="text" class="form-control input-lg" placeholder="Escolha um nome para sua playlist" ng-model="formPlay.nome"> <br />
+
+            <label>Descrição: </label>
+            <input type="text" class="form-control input-lg" placeholder="Conte ao público o que sua playlist reune..." ng-model="formPlay.desc"> <br />
+
+            <label>Foto: </label>
+            <input type="text" class="form-control input-lg" placeholder="Caminho" ng-model="formPlay.foto"> <br />
+
+            <label>Sua Playlist é pública? </label>
+            <input type="text" class="form-control input-lg" placeholder="True or False" ng-model="formPlay.pub"> <br />
+
+            <label>Criador: </label>
+            <input type="text" class="form-control input-lg" placeholder="ID do Criador" ng-model="formPlay.criador"> <br />
+
+            <label>Sua Playlist é colaborativa? </label>
+            <input type="text" class="form-control input-lg" placeholder="True or False" ng-model="formPlay.colab"> <br />
+
+            <label>Duração </label>
+            <input type="text" class="form-control input-lg" placeholder="00:00:00" ng-model="formPlay.dur"> <br />
+
+
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg" ng-click="createPlaylist()">Criar Playlist</button>
+
+        </form>
+      </div>
+
+    </div>
+    <script src="//code.jquery.com/jquery-2.2.4.min.js" type="text/javascript"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.6/angular.min.js"></script>
+    <script src="javascripts/app.js"></script>
+  </body>
+</html>
