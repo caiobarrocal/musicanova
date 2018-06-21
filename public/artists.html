@@ -35,7 +35,19 @@
 
           </div>
 
-          <button type="submit" class="btn btn-primary btn-lg" ng-click="createArtist()">Cadastrar Artista</button>
+          <button type="submit" class="btn btn-primary btn-lg" >Cadastrar Artista</button>
+
+        </form>
+
+        <h2> Remover um Artista </h2>
+        <form action="/api/v1/delartista", method="POST">
+          <div class="form-group">
+            <label>Nome do Artista: </label>
+            <input type="text" class="form-control input-lg" placeholder="Nome" name="nome"> <br />
+
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg">Remover Artista</button>
 
         </form>
       </div>
