@@ -29,17 +29,17 @@ angular.module('nodeMusic', [])
   };
 
   // Create a new artist
-  $scope.createArtist = () => {
-    $http.post('/api/v1/artista', $scope.formArtista)
-    .success((data) => {
-      $scope.formArtista = {};
-      $scope.todoArtista = data;
-      console.log(data);
-    })
-    .error((error) => {
-      console.log('Error: ' + error);
-    });
-  };
+  // $scope.createArtist = () => {
+  //   $http.post('/api/v1/artista', $scope.formArtista)
+  //   .success((data) => {
+  //     $scope.formArtista = {};
+  //     $scope.todoArtista = data;
+  //     console.log(data);
+  //   })
+  //   .error((error) => {
+  //     console.log('Error: ' + error);
+  //   });
+  // };
 
   // Create a new music
   $scope.createMusic = () => {

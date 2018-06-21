@@ -13,31 +13,31 @@
       <h2> Cadastro de Artistas </h2>
 
       <div class="container">
-        <form>
-          <div class="form-group">
-            <label>Id do Artista: </label>
-            <input type="text" class="form-control input-lg" placeholder="ID" ng-model="formArtista.id"> <br />
+          <form action="/api/v1/artista", method="POST">
+            <div class="form-group">
+              <label>Id do Artista: </label>
+              <input type="text" class="form-control input-lg" placeholder="ID" name="id"> <br />
 
-            <label>Nome do Artista (ou banda): </label>
-            <input type="text" class="form-control input-lg" placeholder="Nome" ng-model="formArtista.nome"> <br />
+              <label>Nome do Artista (ou banda): </label>
+              <input type="text" class="form-control input-lg" placeholder="Nome" name="nome"> <br />
 
-            <label>Biografia: </label>
-            <input type="text" class="form-control input-lg" placeholder="Este artista nasceu em..." ng-model="formArtista.bio"> <br />
+              <label>Biografia: </label>
+              <input type="text" class="form-control input-lg" placeholder="Este artista nasceu em..." name="bio"> <br />
 
-            <label>Foto de Perfil: </label>
-            <input type="text" class="form-control input-lg" placeholder="Caminho para foto no servidor" ng-model="formArtista.foto"> <br />
+              <label>Foto de Perfil: </label>
+              <input type="text" class="form-control input-lg" placeholder="Caminho para foto no servidor" name="foto"> <br />
 
-            <label>Verificado: </label>
-            <input type="text" class="form-control input-lg" placeholder="True or False" ng-model="formArtista.verif"> <br />
+              <label>Verificado: </label>
+              <input type="text" class="form-control input-lg" placeholder="True or False" name="verif"> <br />
 
-            <label>Pais do Artista </label>
-            <input type="text" class="form-control input-lg" placeholder="Pais" ng-model="formArtista.p"> <br />
+              <label>Pais do Artista </label>
+              <input type="text" class="form-control input-lg" placeholder="Pais" name="p"> <br />
 
-          </div>
+            </div>
 
-          <button type="submit" class="btn btn-primary btn-lg" >Cadastrar Artista</button>
+            <button type="submit" class="btn btn-primary btn-lg" >Cadastrar Artista</button>
 
-        </form>
+          </form>
 
         <h2> Remover um Artista </h2>
         <form action="/api/v1/delartista", method="POST">
@@ -48,6 +48,33 @@
           </div>
 
           <button type="submit" class="btn btn-primary btn-lg">Remover Artista</button>
+
+        </form>
+
+         <h2> Alterar Artista </h2>
+        <form action="/api/v1/updateartista", method="POST">
+          <div class="form-group">
+            <label>Id do Artista a ser alterado: </label>
+            <input type="text" class="form-control input-lg" placeholder="ID" name="id"> <br />
+
+            <label>Nome do Artista (ou banda): </label>
+            <input type="text" class="form-control input-lg" placeholder="Nome" name="nome"> <br />
+
+            <label>Biografia: </label>
+            <input type="text" class="form-control input-lg" placeholder="Este artista nasceu em..." name="bio"> <br />
+
+            <label>Foto de Perfil: </label>
+            <input type="text" class="form-control input-lg" placeholder="Caminho para foto no servidor" name="foto"> <br />
+
+            <label>Verificado: </label>
+            <input type="text" class="form-control input-lg" placeholder="True or False" name="verif"> <br />
+
+            <label>Pais do Artista </label>
+            <input type="text" class="form-control input-lg" placeholder="Pais" name="p"> <br />
+
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg" >Alterar Artista</button>
 
         </form>
       </div>

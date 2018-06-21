@@ -59,14 +59,17 @@ router.post('/api/v1/album', (req, res, next) => {
 router.post('/api/v1/artista', (req, res, next) => {
   const results = [];
   // Grab data from http request
-  const data = {
-    nome: req.body.nome,
-    id: req.body.id,
-    foto: req.body.foto,
-    bio: req.body.bio,
-    verificado: req.body.verif,
-    p: req.body.p
-  };
+
+  // const data = {id: req.body.id, nome: req.body.nome, bio: req.body.bio, foto: req.body.foto, verificado: req.body.verif, p: req.body.p};
+  const values = [
+      req.body.id,
+      req.body.nome,
+      req.body.bio,
+      req.body.foto,
+      req.body.verif,
+      req.body.p
+  ];
+
   // Get a Postgres client from the connection pool
   pg.connect(config, (err, client, done) => {
     // Handle connection errors
@@ -76,9 +79,8 @@ router.post('/api/v1/artista', (req, res, next) => {
       return res.status(500).json({success: false, data: err});
     }
     // SQL Query > Insert Data
-    const text = 'INSERT INTO USPotify.Artista(id, nome, bio, foto_perfil, verificado, pais) values($1, $2, $3, $4, $5, $6)';
-    const values = [data.id, data.nome, data.bio. data.foto, data.verif, data.p];
-    client.query(text, values);
+    client.query('INSERT INTO USPotify.Artista(id, nome, bio, foto_perfil, verificado, pais) values($1, $2, $3, $4, $5, $6)',
+    values);
     // SQL Query > Select Data
     const query = client.query('SELECT * FROM USPotify.Artista');
     // Stream results back one row at a time
@@ -273,7 +275,7 @@ router.post('/api/v1/delAlbum', (req, res) => {
 // Delete Playlist
 router.post('/api/v1/delPlay', (req, res) => {
     const results = [];
-    
+
     const id_criador = req.body.id;
     const nome = req.body.nome;
 
@@ -304,7 +306,7 @@ router.post('/api/v1/delPlay', (req, res) => {
 // Delete User
 router.post('/api/v1/delUser', (req, res) => {
     const results = [];
-    
+
     const id = req.body.id;
 
 
@@ -345,10 +347,11 @@ router.post('/api/v1/updateartista', (req, res) => {
         req.body.p
     ];
 
-    pg.connect(config, (err) => {
+    pg.connect(config, (err, client, done) => {
+        const results = [];
         const text = 'UPDATE USPotify.Artista'
-        + 'SET id=($1), nome=($2), bio=($3), foto=($4), verificado=($5), p=($6)'
-        + 'WHERE id=($1)';
+        + ' SET id=($1), nome=($2), bio=($3), foto_perfil=($4), verificado=($5), pais=($6)'
+        + ' WHERE id=($1)';
 
         client.query(text, values);
         const query = client.query('SELECT * FROM USPotify.Artista');
