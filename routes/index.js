@@ -276,7 +276,7 @@ router.post('/api/v1/delAlbum', (req, res) => {
 // Delete Playlist
 router.post('/api/v1/delPlay', (req, res) => {
     const results = [];
-    
+
     const id_criador = req.body.id;
     const nome = req.body.nome;
 
@@ -307,7 +307,7 @@ router.post('/api/v1/delPlay', (req, res) => {
 // Delete User
 router.post('/api/v1/delUser', (req, res) => {
     const results = [];
-    
+
     const id = req.body.id;
 
 
@@ -348,10 +348,11 @@ router.post('/api/v1/updateartista', (req, res) => {
         req.body.p
     ];
 
-    pg.connect(config, (err) => {
+    pg.connect(config, (err, client, done) => {
+        const results = [];
         const text = 'UPDATE USPotify.Artista'
-        + 'SET id=($1), nome=($2), bio=($3), foto=($4), verificado=($5), p=($6)'
-        + 'WHERE id=($1)';
+        + ' SET id=($1), nome=($2), bio=($3), foto_perfil=($4), verificado=($5), pais=($6)'
+        + ' WHERE id=($1)';
 
         client.query(text, values);
         const query = client.query('SELECT * FROM USPotify.Artista');
