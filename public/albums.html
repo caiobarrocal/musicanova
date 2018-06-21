@@ -44,19 +44,18 @@
       <div class="container">
 
         <h2> Remover um Álbum </h2>
-        <form>
+        <form action="/api/v1/delAlbum", method="POST">
           <div class="form-group">
-            <label>Id do Album: </label>
-            <input id = "id_r_album" type="text" class="form-control input-lg" placeholder="ID" ng-model="formDelAlbum.id"> <br />
 
-            <label>Nome do Album: </label>
-            <input type="text" class="form-control input-lg" placeholder="Nome" ng-model="formDelAlbum.nome"> <br />
+            <label>Id do Álbum: </label>
+            <input type="text" class="form-control input-lg" placeholder="ID" name="id"> <br />
 
           </div>
 
-          <button type="submit" class="btn btn-primary btn-lg" ng-click="deleteAlbum(String(document.getElementById('id_r_album').value))">Remover Album</button>
+          <button type="submit" class="btn btn-primary btn-lg">Remover Álbum</button>
 
         </form>
+
       </div>
 
     </div>
