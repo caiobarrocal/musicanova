@@ -23,6 +23,40 @@ router.get('/', (req, res, next) => {
   res.sendFile('index.html');
 });
 
+// BUSCA
+
+router.get('/api/v1/searchmusic', (req, res, next) => {
+  const results = [];
+
+  const data = {music: req.body.music};
+  // Get a Postgres client from the connection pool
+  console.log(data);
+  pg.connect(config, (err, client, done) => {
+    // Handle connection errors
+    if(err) {
+      done();
+      console.log(err);
+      return res.status(500).json({success: false, data: err});
+    }
+    // SQL Query > Select Data
+    const query = client.query('SELECT * FROM USPotify.Musica WHERE titulo = ($1)',[data.music]) ;
+    // Stream results back one row at a time
+    query.on('row', (row) => {
+      results.push(row);
+    });
+    console.log(results);
+    // After all data is returned, close connection and return results
+    query.on('end', () => {
+      done();
+      return res.json(results);
+    });
+  });
+});
+
+
+
+
+
 //CREATION ROUTES
 
 // Create Album
@@ -121,7 +155,7 @@ router.post('/api/v1/music', (req, res, next) => {
 
     // Aqui seria legal verificar se o gênero que a pessoa estipulou para a música já existe na relação Genero. 
     // Caso ele exista, OK! Do contrário, inserí-lo na relação Genero antes de fazer a inserção na Tem_Genero.
-    
+
     client.query('INSERT INTO USPotify.Tem_Genero(id_musica, nome_genero, relevancia) values($1, $2, $3)',
     [data.id, data.genero, data.relevancia]);
 
@@ -204,30 +238,6 @@ router.post('/api/v1/playlist', (req, res, next) => {
   });
 });
 
-
-router.get('/api/v1/music', (req, res, next) => {
-  const results = [];
-  // Get a Postgres client from the connection pool
-  pg.connect(config, (err, client, done) => {
-    // Handle connection errors
-    if(err) {
-      done();
-      console.log(err);
-      return res.status(500).json({success: false, data: err});
-    }
-    // SQL Query > Select Data
-    const query = client.query('SELECT * FROM USPotify.Genero');
-    // Stream results back one row at a time
-    query.on('row', (row) => {
-      results.push(row);
-    });
-    // After all data is returned, close connection and return results
-    query.on('end', () => {
-      done();
-      return res.json(results);
-    });
-  });
-});
 
 //DELEÇÕES
 

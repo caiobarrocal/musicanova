@@ -3,15 +3,24 @@ angular.module('nodeMusic', [])
   $scope.formData = {};
   $scope.musicData = {};
 
+// BUSCA
+
   // Get all music
-  $http.get('/api/v1/music')
-  .success((data) => {
-    $scope.musicData = data;
-    console.log(data);
-  })
-  .error((error) => {
-    console.log('Error: ' + error);
-  });
+  $scope.getMusic = () => {
+    $http.get('/api/v1/searchmusic')
+    .success((data) => {
+      $scope.buscaData = data;
+      console.log(data);
+    })
+    .error((error) => {
+      console.log('Error: ' + error);
+    });
+  };
+
+
+
+
+
 
   // CREATION METHODS
 

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html ng-app="nodeMusic">
+  <head>
+    <title>USPotify</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" media="screen">
+  </head>
+  <body ng-controller="mainController">
+    <div class="container">
+
+      <!-- Cadastro de Músicas -->
+        <div class="container">
+          <h2> Busque uma Música </h2>
+          <form>
+            <div class="form-group">
+              
+              <input type="text" class="form-control input-lg" placeholder="Nome" ng-model="formBusca.music"> <br />
+
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg" ng-click="getMusic()">Buscar Música</button>
+
+          </form>
+      </div>
+
+    </div>
+    <script src="//code.jquery.com/jquery-2.2.4.min.js" type="text/javascript"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.6/angular.min.js"></script>
+    <script src="javascripts/app.js"></script>
+  </body>
+</html>
