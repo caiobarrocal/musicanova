@@ -54,6 +54,34 @@
 
       </div>
 
+      <h2> Alteração de Usuários </h2>
+
+      <div class="container">
+        <form action="/api/v1/updateuser", method="POST">
+          <div class="form-group">
+            <label>Id do Usuário: </label>
+            <input type="text" class="form-control input-lg" placeholder="ID" name="id"> <br />
+
+            <label>Nome: </label>
+            <input type="text" class="form-control input-lg" placeholder="Fulano da Silva" name = "nome"> <br />
+
+            <label>Data de Nascimento: </label>
+            <input type="text" class="form-control input-lg" placeholder="MO-DA-YEAR" name = "datan"> <br />
+
+            <label>País: </label>
+            <input type="text" class="form-control input-lg" placeholder="US" name = "pais"> <br />
+
+
+            <label>Foto de Perfil </label>
+            <input type="text" class="form-control input-lg" placeholder="http://foto" name = "foto"> <br />
+
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg"> Alterar Usuário </button>
+
+        </form>
+      </div>
+
     </div>
     <script src="//code.jquery.com/jquery-2.2.4.min.js" type="text/javascript"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
