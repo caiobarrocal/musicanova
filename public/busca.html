@@ -8,20 +8,81 @@
   <body ng-controller="mainController">
     <div class="container">
 
-      <!-- Cadastro de Músicas -->
+        <!-- Busca de Albuns -->
+          <div class="container">
+            <h2> Busque um Álbum </h2>
+            <form action="/api/v1/searchalbum" method="POST">
+                <div class="form-group">
+
+                <input type="text" class="form-control input-lg" placeholder="Nome" name="searchString"> <br />
+
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-lg">Buscar Álbum</button>
+
+            </form>
+        </div>
+
+        <!-- Busca de Artistas -->
+        <div class="container">
+            <h2> Busque um Artista </h2>
+            <form action="/api/v1/searchartist" method="POST">
+                <div class="form-group">
+
+                    <input type="text" class="form-control input-lg" placeholder="Nome" name="searchString"> <br />
+
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg">Buscar Artista</button>
+
+            </form>
+        </div>
+
+      <!-- Busca de Músicas -->
         <div class="container">
           <h2> Busque uma Música </h2>
-          <form>
+          <form action="/api/v1/searchmusic" method="POST">
             <div class="form-group">
-              
-              <input type="text" class="form-control input-lg" placeholder="Nome" ng-model="formBusca.music"> <br />
+
+              <input type="text" class="form-control input-lg" placeholder="Título" name="searchString"> <br />
 
             </div>
 
-            <button type="submit" class="btn btn-primary btn-lg" ng-click="getMusic()">Buscar Música</button>
+            <button type="submit" class="btn btn-primary btn-lg">Buscar Usuário</button>
 
           </form>
       </div>
+
+      <!-- Busca de Playlists -->
+        <div class="container">
+          <h2> Busque uma Playlist </h2>
+          <form action="/api/v1/searchplaylist" method="POST">
+            <div class="form-group">
+
+              <input type="text" class="form-control input-lg" placeholder="Nome" name="searchString"> <br />
+
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg">Buscar Playlist</button>
+
+          </form>
+      </div>
+
+      <!-- Busca de Usuario -->
+        <div class="container">
+          <h2> Busque um Usuário </h2>
+          <form action="/api/v1/searchuser" method="POST">
+            <div class="form-group">
+
+              <input type="text" class="form-control input-lg" placeholder="Nome" name="searchString"> <br />
+
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg">Buscar Música</button>
+
+          </form>
+      </div>
+
 
     </div>
     <script src="//code.jquery.com/jquery-2.2.4.min.js" type="text/javascript"></script>
