@@ -23,40 +23,6 @@ router.get('/', (req, res, next) => {
   res.sendFile('index.html');
 });
 
-// BUSCA
-
-router.get('/api/v1/searchmusic', (req, res, next) => {
-  const results = [];
-
-  const data = {music: req.body.music};
-  // Get a Postgres client from the connection pool
-  console.log(data);
-  pg.connect(config, (err, client, done) => {
-    // Handle connection errors
-    if(err) {
-      done();
-      console.log(err);
-      return res.status(500).json({success: false, data: err});
-    }
-    // SQL Query > Select Data
-    const query = client.query('SELECT * FROM USPotify.Musica WHERE titulo = ($1)',[data.music]) ;
-    // Stream results back one row at a time
-    query.on('row', (row) => {
-      results.push(row);
-    });
-    console.log(results);
-    // After all data is returned, close connection and return results
-    query.on('end', () => {
-      done();
-      return res.json(results);
-    });
-  });
-});
-
-
-
-
-
 //CREATION ROUTES
 
 // Create Album
@@ -529,19 +495,17 @@ router.post('/api/v1/searchalbum', (req, res) => {
     const searchString = ['%' + req.body.searchString + '%'];
 
     pg.connect(config, (err, client, done) => {
-        const results = [];
         const text = 'SELECT nome, produtora, tipo, foto_capa'
             + ' FROM USPotify.Album'
             + ' WHERE nome LIKE ($1);';
-        const query = client.query(text, searchString);
-        // Stream results back one row at a time
-        query.on('row', (row) => {
-          results.push(row);
+        const query = client.query({
+            text: text,
+            values: searchString,
+            rowMode: 'array'
         });
-        // After all data is returned, close connection and return results
         query.on('end', () => {
           done();
-          return res.json(results);
+          return res.render('results', {table: "Album", rows: query._result.rows});
         });
     });
 });
@@ -550,19 +514,17 @@ router.post('/api/v1/searchartist', (req, res) => {
     const searchString = ['%' + req.body.searchString + '%'];
 
     pg.connect(config, (err, client, done) => {
-        const results = [];
         const text = 'SELECT nome, foto_perfil, verificado'
             + ' FROM USPotify.Artista'
             + ' WHERE nome LIKE ($1);';
-        const query = client.query(text, searchString);
-        // Stream results back one row at a time
-        query.on('row', (row) => {
-          results.push(row);
+        const query = client.query({
+            text: text,
+            values: searchString,
+            rowMode: 'array'
         });
-        // After all data is returned, close connection and return results
         query.on('end', () => {
-          done();
-          return res.json(results);
+            done();
+            return res.render('results', {table: "Artista", rows: query._result.rows});
         });
     });
 });
@@ -571,19 +533,17 @@ router.post('/api/v1/searchmusic', (req, res) => {
     const searchString = ['%' + req.body.searchString + '%'];
 
     pg.connect(config, (err, client, done) => {
-        const results = [];
         const text = 'SELECT titulo, explicita, duracao'
             + ' FROM USPotify.Musica'
             + ' WHERE titulo LIKE ($1);';
-        const query = client.query(text, searchString);
-        // Stream results back one row at a time
-        query.on('row', (row) => {
-          results.push(row);
+        const query = client.query({
+            text: text,
+            values: searchString,
+            rowMode: 'array'
         });
-        // After all data is returned, close connection and return results
         query.on('end', () => {
-          done();
-          return res.json(results);
+            done();
+            return res.render('results', {table: "Musica", rows: query._result.rows});
         });
     });
 });
@@ -592,19 +552,17 @@ router.post('/api/v1/searchuser', (req, res) => {
     const searchString = ['%' + req.body.searchString + '%'];
 
     pg.connect(config, (err, client, done) => {
-        const results = [];
         const text = 'SELECT nome, foto_perfil'
             + ' FROM USPotify.Usuario'
             + ' WHERE nome LIKE ($1);';
-        const query = client.query(text, searchString);
-        // Stream results back one row at a time
-        query.on('row', (row) => {
-          results.push(row);
+        const query = client.query({
+            text: text,
+            values: searchString,
+            rowMode: 'array'
         });
-        // After all data is returned, close connection and return results
         query.on('end', () => {
-          done();
-          return res.json(results);
+            done();
+            return res.render('results', {table: "Usuario", rows: query._result.rows});
         });
     });
 });
@@ -613,19 +571,17 @@ router.post('/api/v1/searchplaylist', (req, res) => {
     const searchString = ['%' + req.body.searchString + '%'];
 
     pg.connect(config, (err, client, done) => {
-        const results = [];
         const text = 'SELECT nome, descricao, foto, num_seguidores'
             + ' FROM USPotify.Playlist'
             + ' WHERE nome LIKE ($1) AND publica = TRUE;';
-        const query = client.query(text, searchString);
-        // Stream results back one row at a time
-        query.on('row', (row) => {
-          results.push(row);
+        const query = client.query({
+            text: text,
+            values: searchString,
+            rowMode: 'array'
         });
-        // After all data is returned, close connection and return results
         query.on('end', () => {
-          done();
-          return res.json(results);
+            done();
+            return res.render('results', {table: "Playlist", rows: query._result.rows});
         });
     });
 });

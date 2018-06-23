@@ -1,0 +1,47 @@
+extends layout
+
+block content
+    h1 Resultado da Busca
+
+    if table == "Album"
+        - var th1 = "Nome"
+        - var th2 = "Produtora"
+        - var th3 = "Tipo"
+        - var th4 = "Foto_capa"
+
+    if table == "Artista"
+        - var th1 = "Nome"
+        - var th2 = "Foto_perfil"
+        - var th3  = "Verificado"
+
+    if table == "Musica"
+        - var th1 = "Título"
+        - var th2 = "Explicita"
+        - var th3 = "Duração"
+
+    if table == "Usuario"
+        - var th1 = "Nome"
+        - var th2 = "foto_perfil"
+
+    if table == "Playlist"
+        - var th1 = "Nome"
+        - var th2 = "Descrição"
+        - var th3 = "Foto"
+        - var th4 = "Numero de Seguidores"
+
+
+    table
+        thead
+            tr
+                th= th1
+                th= th2
+                th= th3
+                th= th4
+
+            tbody
+                - each row in rows
+                  tr
+                     td= row[0]
+                     td= row[1]
+                     td= row[2]
+                     td= row[3]
