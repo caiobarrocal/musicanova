@@ -1,8 +1,64 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: 'Lato', sans-serif;;
 }
 
+h1 {
+	font-size: 50px;
+	color: #444444;
+}
+
+label {
+	font-size: 14px;
+}
+
+.up {
+	width: 100%;
+	display: block;
+	height: 100px;
+}
+
+.left {
+	float:left;
+	width: 40%;
+}
+
+.right {
+	float: right;
+	width: 60%;
+}
+
+.right .form-control {
+	
+	float: left;
+}
+
+.right .form-group {
+
+	width:60% !important;
+
+	margin: 0;
+	margin-top: 50px;
+}
+
+.right .btn {
+
+	float: left;
+	margin-left: 20px;
+	margin-top: -20px; 
+
+}
+
+.sugestion {
+	width: 100%;
+	margin-top: 30px;
+}
+
+.sugestion h4 {
+	font-size: 14px;
+}
 a {
   color: #00B7FF;
 }
+
+
