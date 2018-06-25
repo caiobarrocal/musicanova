@@ -3,6 +3,10 @@ const router = express.Router();
 const pg = require('pg');
 const path = require('path');
 
+// Neo4J Details
+var neo4j = require('neo4j-driver').v1;
+var neodriver = neo4j.driver("bolt://hobby-empfodcaihehgbkedmflgjbl.dbs.graphenedb.com:24786", neo4j.auth.basic("caie", "b.SWqtnbkloAf4.aHJafi0gGhTJ9eSd"));
+
 const app = express();
 
 const bodyParser = require('body-parser');
@@ -66,7 +70,48 @@ router.post('/api/v1/artista', (req, res, next) => {
   const results = [];
   // Grab data from http request
 
+  var idmax = [];
+
+  pg.connect(config, (err, client, done) => {
+    // Handle connection errors
+    if(err) {
+      done();
+      console.log(err);
+      return res.status(500).json({success: false, data: err});
+    }
+
+    // SQL Query > Select Data
+    const query = client.query('SELECT max(id) FROM USPotify.Artista');
+    // Stream results back one row at a time
+    query.on('row', (row) => {
+      idmax.push(row);
+    });
+  });
+
+  console.log(idmax);
+
+
+  // Inserir no BD em Grafos
+  
+  const neodata = {id: req.body.id, nome: req.body.nome};
+  var params = {"nome": neodata.nome, "id": neodata.id};
+  var neoquery = "CREATE (a:Artista {nome: $nome, id: $id}) RETURN a";
+  var neosession = neodriver.session();
+
+  neosession.run(neoquery, params)
+    .then(function(result) {
+      result.records.forEach(function(record) {
+          console.log(record.get('a'));
+           // on application exit:
+        driver.close();
+      })
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+
   // const data = {id: req.body.id, nome: req.body.nome, bio: req.body.bio, foto: req.body.foto, verificado: req.body.verif, p: req.body.p};
+  
   const values = [
       req.body.id,
       req.body.nome,
@@ -87,6 +132,7 @@ router.post('/api/v1/artista', (req, res, next) => {
     // SQL Query > Insert Data
     client.query('INSERT INTO USPotify.Artista(id, nome, bio, foto_perfil, verificado, pais) values($1, $2, $3, $4, $5, $6)',
     values);
+
     // SQL Query > Select Data
     const query = client.query('SELECT * FROM USPotify.Artista');
     // Stream results back one row at a time
@@ -96,9 +142,13 @@ router.post('/api/v1/artista', (req, res, next) => {
     // After all data is returned, close connection and return results
     query.on('end', () => {
       done();
-      return res.json(results);
+      
     });
   });
+
+  return res.json(results);
+
+
 });
 
 
