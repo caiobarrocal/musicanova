@@ -622,6 +622,10 @@ router.post('/api/v1/relacionarartista', (req, res) => {
     });
 });
 
+
+
+//RECOMENDAÇÕES DA HOME
+
 router.get('/api/v1/gender', (req, res, next) => {
   const results = [];
   // Get a Postgres client from the connection pool
@@ -634,6 +638,58 @@ router.get('/api/v1/gender', (req, res, next) => {
       return res.status(500).json({success: false, data: err});
     }
 
+
+    // SQL Query > Select Data
+    const query = client.query("SELECT musica.titulo as titulo, foto_capa, artista.nome as artista, musica.arquivo_audio as link FROM USPotify.Tem_Genero, USPotify.Album, USPotify.Musica, USPotify.Artista, USPotify.Gravou WHERE tem_genero.nome_genero = 'Indie' AND tem_genero.id_musica = musica.id AND musica.id_album = album.id AND gravou.id_album = album.id AND gravou.id_artista = artista.id LIMIT 10;");
+    // Stream results back one row at a time
+
+    query.on('row', (row) => {
+      results.push(row);
+    });
+
+    
+    console.log(results);
+    // After all data is returned, close connection and return results
+    query.on('end', () => {
+      done();
+      return res.json(results);
+    });
+  });
+});
+
+router.get('/api/v1/sugartists', (req, res, next) => {
+  
+  const results = [];
+  // Get a Postgres client from the connection pool
+
+  const neosession = neodriver.session();
+  const neoresult = neosession.run("MATCH (:Artista { nome: 'Beach House' })-[RELACIONADO]->(artista) RETURN artista.id");
+  const collectedArtists = [];
+
+  neoresult.subscribe({
+    onNext: record => {
+      
+      const id = record.get(0);
+      collectedArtists.push(id);
+    },
+    onCompleted: () => {
+      neosession.close();
+      console.log('Ids: ' + collectedArtists.join(', '));
+    },
+    onError: error => {
+      console.log(error);
+    }
+  });
+
+  console.log(collectedArtists);
+
+  pg.connect(config, (err, client, done) => {
+    // Handle connection errors
+    if(err) {
+      done();
+      console.log(err);
+      return res.status(500).json({success: false, data: err});
+    }
 
     // SQL Query > Select Data
     const query = client.query("SELECT musica.titulo as titulo, foto_capa, artista.nome as artista, musica.arquivo_audio as link FROM USPotify.Tem_Genero, USPotify.Album, USPotify.Musica, USPotify.Artista, USPotify.Gravou WHERE tem_genero.nome_genero = 'Indie' AND tem_genero.id_musica = musica.id AND musica.id_album = album.id AND gravou.id_album = album.id AND gravou.id_artista = artista.id LIMIT 10;");

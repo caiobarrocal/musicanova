@@ -4,11 +4,22 @@ angular.module('nodeMusic', [])
   $scope.musicData = {};
   $scope.friendsData = {};
   $scope.genderData = {};
-  
+  $scope.artistData = {};
+
   // Get all todos
   $http.get('/api/v1/gender')
   .success((data) => {
     $scope.genderData = data;
+    console.log(data);
+  })
+  .error((error) => {
+    console.log('Error: ' + error);
+  });
+
+  // Get all todos
+  $http.get('/api/v1/sugartists')
+  .success((data) => {
+    $scope.artistData = data;
     console.log(data);
   })
   .error((error) => {
