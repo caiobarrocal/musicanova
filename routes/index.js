@@ -622,13 +622,11 @@ router.post('/api/v1/relacionarartista', (req, res) => {
     });
 });
 
-router.get('/api/v1/friends', (req, res, next) => {
+router.get('/api/v1/gender', (req, res, next) => {
   const results = [];
   // Get a Postgres client from the connection pool
 
-
-
-  pg.connect(connectionString, (err, client, done) => {
+  pg.connect(config, (err, client, done) => {
     // Handle connection errors
     if(err) {
       done();
@@ -638,11 +636,15 @@ router.get('/api/v1/friends', (req, res, next) => {
 
 
     // SQL Query > Select Data
-    const query = client.query('SELECT * FROM items ORDER BY id ASC;');
+    const query = client.query("SELECT musica.titulo as titulo, foto_capa, artista.nome as artista FROM USPotify.Tem_Genero, USPotify.Album, USPotify.Musica, USPotify.Artista, USPotify.Gravou WHERE tem_genero.nome_genero = 'Indie' AND tem_genero.id_musica = musica.id AND musica.id_album = album.id AND gravou.id_album = album.id AND gravou.id_artista = artista.id;");
     // Stream results back one row at a time
+
     query.on('row', (row) => {
       results.push(row);
     });
+
+    
+    console.log(results);
     // After all data is returned, close connection and return results
     query.on('end', () => {
       done();

@@ -36,7 +36,20 @@
     	
     	<div class="sugestion">
     		
-    		<h4>Porque você ouviu Pop...</h4>
+    		<h4>Porque você ouviu Indie...</h4>
+
+        <div class="sug-list" >
+          
+            <div class="sug-item" ng-repeat="music in genderData">
+
+              <img src="{{ music.foto_capa }}" />
+              <h4><b>{{ music.titulo }}</b></h4>
+              <h4>{{ music.artista }}</h4>
+
+            </div>
+
+          
+        </div>
 
 
     	</div>
@@ -52,7 +65,7 @@
         
         <h4>O que seus amigos estão ouvindo?</h4>
 
-        
+
 
 
       </div>

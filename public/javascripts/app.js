@@ -3,11 +3,12 @@ angular.module('nodeMusic', [])
   $scope.formData = {};
   $scope.musicData = {};
   $scope.friendsData = {};
-
+  $scope.genderData = {};
+  
   // Get all todos
-  $http.get('/api/v1/friends')
+  $http.get('/api/v1/gender')
   .success((data) => {
-    $scope.friendsData = data;
+    $scope.genderData = data;
     console.log(data);
   })
   .error((error) => {
