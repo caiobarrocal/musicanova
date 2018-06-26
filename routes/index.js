@@ -619,6 +619,8 @@ router.post('/api/v1/searchmusic', (req, res) => {
     });
 });
 
+
+// ESTABELECER RELACIONAMENTOS ENTRE ARTISTAS
 router.post('/api/v1/relacionarartista', (req, res) => {
     // Inserir no BD em Grafos
 
