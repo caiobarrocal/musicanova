@@ -41,10 +41,11 @@
         <div class="sug-list" >
           
             <div class="sug-item" ng-repeat="music in genderData">
-
-              <img src="{{ music.foto_capa }}" />
-              <h4><b>{{ music.titulo }}</b></h4>
-              <h4>{{ music.artista }}</h4>
+              <a href="{{music.link}}">
+                <img src="{{ music.foto_capa }}" />
+                <h4><b>{{ music.titulo }}</b></h4>
+                <h4>{{ music.artista }}</h4>
+              </a>
 
             </div>
 
