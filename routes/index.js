@@ -549,17 +549,17 @@ router.post('/api/v1/updateplaylist', (req, res) => {
         req.body.desc,
         req.body.foto,
         req.body.pub,
-        req.body.criador,
         req.body.colab,
         req.body.dur
     ];
 
+    console.log(values);
     pg.connect(config, (err, client, done) => {
         const results = [];
         const text = 'UPDATE USPotify.Playlist'
-                + ' SET id=($1), nome=($2), descricao=($3),'
-                + ' foto=($4), publica=($5), id_criador=($6), colaborativa=($7),'
-                + ' duracao=($8)'
+                + ' SET nome=($2), descricao=($3),'
+                + ' foto=($4), publica=($5), colaborativa=($6),'
+                + ' duracao=($7)'
                 + ' WHERE id=($1);';
         client.query(text, values, (err, res) => {
             if (err) {
@@ -569,7 +569,7 @@ router.post('/api/v1/updateplaylist', (req, res) => {
             }
         });
         const query = client.query('SELECT * FROM USPotify.Playlist;');
-        res.redirect('/');
+        res.redirect('/playlists.html');
         // query.on('end', () => {
         //     done();
         //     res.redirect('/');
