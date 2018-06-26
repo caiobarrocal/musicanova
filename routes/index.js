@@ -71,7 +71,7 @@ router.post('/api/v1/artista', (req, res, next) => {
   // Grab data from http request
 
   // Inserir no BD em Grafos
-  
+
   const neodata = {id: req.body.id, nome: req.body.nome};
   var params = {"nome": neodata.nome, "id": neodata.id};
   var neoquery = "CREATE (a:Artista {nome: $nome, id: $id}) RETURN a";
@@ -90,7 +90,7 @@ router.post('/api/v1/artista', (req, res, next) => {
     });
 
   // const data = {id: req.body.id, nome: req.body.nome, bio: req.body.bio, foto: req.body.foto, verificado: req.body.verif, p: req.body.p};
-  
+
   const values = [
       req.body.id,
       req.body.nome,
@@ -122,7 +122,7 @@ router.post('/api/v1/artista', (req, res, next) => {
     query.on('end', () => {
       return res.render('results', {table: "Artista", rows: query._result.rows});
       done();
-      
+
     });
   });
 
@@ -178,9 +178,9 @@ router.post('/api/v1/user', (req, res, next) => {
 
   // Grab data from http request
   const data = {id: req.body.id, nome: req.body.nome, datan: req.body.datan, pais: req.body.pais, foto: req.body.foto};
-  
+
   // Inserir no BD em Grafos
-  
+
   const neodata = {id: req.body.id, nome: req.body.nome};
   var params = {"nome": neodata.nome, "id": neodata.id};
   var neoquery = "CREATE (a:Usuario {nome: $nome, id: $id}) RETURN a";
@@ -225,7 +225,7 @@ router.post('/api/v1/user', (req, res, next) => {
 });
 
 //Create a new playlist
-router.post('/api/v1/playlist', (req, res, next) => {
+router.post('/api/v1/playli-h st', (req, res, next) => {
   const results = [];
   // Grab data from http request
   const data = {id: req.body.id, nome: req.body.nome, desc: req.body.desc, datac: '01-01-2000',  foto: req.body.foto, pub: req.body.pub, criador: req.body.criador, colab: req.body.colab, dur: req.body.dur, segs: '0'};
@@ -519,7 +519,6 @@ router.post('/api/v1/updateuser', (req, res) => {
         req.body.datan,
         req.body.pais,
         req.body.foto,
-
     ];
 
     pg.connect(config, (err, client, done) => {
@@ -539,6 +538,42 @@ router.post('/api/v1/updateuser', (req, res) => {
           done();
           return res.json(results);
         });
+    });
+});
+
+// Update Playlist
+router.post('/api/v1/updateplaylist', (req, res) => {
+    const values = [
+        req.body.id,
+        req.body.nome,
+        req.body.desc,
+        req.body.foto,
+        req.body.pub,
+        req.body.criador,
+        req.body.colab,
+        req.body.dur
+    ];
+
+    pg.connect(config, (err, client, done) => {
+        const results = [];
+        const text = 'UPDATE USPotify.Playlist'
+                + ' SET id=($1), nome=($2), descricao=($3),'
+                + ' foto=($4), publica=($5), id_criador=($6), colaborativa=($7),'
+                + ' duracao=($8)'
+                + ' WHERE id=($1);';
+        client.query(text, values, (err, res) => {
+            if (err) {
+                return console.log(err.message);
+            } else {
+                console.log(res);
+            }
+        });
+        const query = client.query('SELECT * FROM USPotify.Playlist;');
+        res.redirect('/');
+        // query.on('end', () => {
+        //     done();
+        //     res.redirect('/');
+        // });
     });
 });
 
@@ -603,7 +638,7 @@ router.post('/api/v1/searchmusic', (req, res) => {
 
 router.post('/api/v1/relacionarartista', (req, res) => {
     // Inserir no BD em Grafos
-  
+
   const neodata = {id1: req.body.id1, id2: req.body.id2, relevancia: req.body.relevancia};
   var params = {"id1": neodata.id1, "id2": neodata.id2, "relevancia": neodata.relevancia};
   var neoquery = "MATCH (a:Artista),(b:Artista) WHERE a.id = $id1 AND b.id = $id2 CREATE (a)-[r:RELACIONADO { relevancia: $relevancia }]->(b) RETURN type(r), r.relevancia";
@@ -647,7 +682,7 @@ router.get('/api/v1/gender', (req, res, next) => {
       results.push(row);
     });
 
-    
+
     console.log(results);
     // After all data is returned, close connection and return results
     query.on('end', () => {
@@ -658,7 +693,7 @@ router.get('/api/v1/gender', (req, res, next) => {
 });
 
 router.get('/api/v1/sugartists', (req, res, next) => {
-  
+
   const results = [];
   // Get a Postgres client from the connection pool
 
@@ -668,7 +703,7 @@ router.get('/api/v1/sugartists', (req, res, next) => {
 
   neoresult.subscribe({
     onNext: record => {
-      
+
       const id = record.get(0);
       collectedArtists.push(id);
     },
@@ -699,7 +734,7 @@ router.get('/api/v1/sugartists', (req, res, next) => {
       results.push(row);
     });
 
-    
+
     console.log(results);
     // After all data is returned, close connection and return results
     query.on('end', () => {
