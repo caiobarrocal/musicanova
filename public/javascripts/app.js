@@ -15,6 +15,7 @@ angular.module('nodeMusic', [])
   });
 
   // Get all music
+  /*
   $scope.getMusic = () => {
     $http.get('/api/v1/searchmusic')
     .success((data) => {
@@ -25,7 +26,7 @@ angular.module('nodeMusic', [])
       console.log('Error: ' + error);
     });
   };
-
+*/
   // CREATION METHODS
 
   // Create a new album

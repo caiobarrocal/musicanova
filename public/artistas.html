@@ -86,6 +86,26 @@
         </form>
       </div>
 
+      <div class="man-block">
+        <h2> ESTABELECER RELACIONAMENTO </h2>
+        <form action="/api/v1/relacionarartista", method="POST">
+          <div class="form-group">
+            <label>Id do Artista 1: </label>
+            <input type="text" class="form-control " placeholder="ID" name="id1"> <br />
+
+            <label>Id do Artista 2: </label>
+            <input type="text" class="form-control " placeholder="ID" name="id2"> <br />
+
+            <label>Relevância de Relacionamento: </label>
+            <input type="text" class="form-control " placeholder="De 0 a 100" name="relevancia"> <br />
+
+          </div>
+          <button type="submit" class="btn btn-primary " >Relacionar</button>
+
+        </form>
+      </div>
+
+
     </div>
     <script src="//code.jquery.com/jquery-2.2.4.min.js" type="text/javascript"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>

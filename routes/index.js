@@ -13,10 +13,10 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const config = {
-    host: 'linux.ime.usp.br',
-    user: 'vinne',
-    password: 'tp15gv23',
-    database: 'vinne',
+    host: 'stampy.db.elephantsql.com',
+    user: 'dbekqqqu',
+    password: '7HgZ_EsDThMRjRf7BJrM4YKder1ixQVj',
+    database: 'dbekqqqu',
     port: 5432,
     ssl: true
 };
@@ -70,27 +70,6 @@ router.post('/api/v1/artista', (req, res, next) => {
   const results = [];
   // Grab data from http request
 
-  var idmax = [];
-
-  pg.connect(config, (err, client, done) => {
-    // Handle connection errors
-    if(err) {
-      done();
-      console.log(err);
-      return res.status(500).json({success: false, data: err});
-    }
-
-    // SQL Query > Select Data
-    const query = client.query('SELECT max(id) FROM USPotify.Artista');
-    // Stream results back one row at a time
-    query.on('row', (row) => {
-      idmax.push(row);
-    });
-  });
-
-  console.log(idmax);
-
-
   // Inserir no BD em Grafos
   
   const neodata = {id: req.body.id, nome: req.body.nome};
@@ -141,6 +120,7 @@ router.post('/api/v1/artista', (req, res, next) => {
     });
     // After all data is returned, close connection and return results
     query.on('end', () => {
+      return res.render('results', {table: "Artista", rows: query._result.rows});
       done();
       
     });
@@ -239,7 +219,7 @@ router.post('/api/v1/user', (req, res, next) => {
     // After all data is returned, close connection and return results
     query.on('end', () => {
       done();
-      return res.json(results);
+      return res.render('results', {table: "Usuario", rows: query._result.rows});;
     });
   });
 });
@@ -621,28 +601,33 @@ router.post('/api/v1/searchmusic', (req, res) => {
     });
 });
 
-router.post('/api/v1/searchuser', (req, res) => {
-    const searchString = ['%' + req.body.searchString + '%'];
+router.post('/api/v1/relacionarartista', (req, res) => {
+    // Inserir no BD em Grafos
+  
+  const neodata = {id1: req.body.id1, id2: req.body.id2, relevancia: req.body.relevancia};
+  var params = {"id1": neodata.id1, "id2": neodata.id2, "relevancia": neodata.relevancia};
+  var neoquery = "MATCH (a:Artista),(b:Artista) WHERE a.id = $id1 AND b.id = $id2 CREATE (a)-[r:RELACIONADO { relevancia: $relevancia }]->(b) RETURN type(r), r.relevancia";
+  var neosession = neodriver.session();
 
-    pg.connect(config, (err, client, done) => {
-        const text = 'SELECT nome, foto_perfil'
-            + ' FROM USPotify.Usuario'
-            + ' WHERE nome LIKE ($1);';
-        const query = client.query({
-            text: text,
-            values: searchString,
-            rowMode: 'array'
-        });
-        query.on('end', () => {
-            done();
-            return res.render('results', {table: "Usuario", rows: query._result.rows});
-        });
+  neosession.run(neoquery, params)
+    .then(function(result) {
+      result.records.forEach(function(record) {
+          console.log("RELACIONADO");
+           // on application exit:
+        neodriver.close();
+      })
+    })
+    .catch(function(error) {
+      console.log(error);
     });
 });
 
 router.get('/api/v1/friends', (req, res, next) => {
   const results = [];
   // Get a Postgres client from the connection pool
+
+
+
   pg.connect(connectionString, (err, client, done) => {
     // Handle connection errors
     if(err) {
@@ -650,6 +635,8 @@ router.get('/api/v1/friends', (req, res, next) => {
       console.log(err);
       return res.status(500).json({success: false, data: err});
     }
+
+
     // SQL Query > Select Data
     const query = client.query('SELECT * FROM items ORDER BY id ASC;');
     // Stream results back one row at a time
@@ -681,37 +668,6 @@ router.post('/api/v1/searchplaylist', (req, res) => {
             return res.render('results', {table: "Playlist", rows: query._result.rows});
         });
     });
-});
-
-router.put('/api/v1/music/:music_id', (req, res, next) => {
-  const results = [];
-  // Grab data from the URL parameters
-  const id = req.params.music_id;
-  // Grab data from http request
-  const data = {text: req.body.text, complete: req.body.complete};
-  // Get a Postgres client from the connection pool
-  pg.connect(config, (err, client, done) => {
-    // Handle connection errors
-    if(err) {
-      done();
-      console.log(err);
-      return res.status(500).json({success: false, data: err});
-    }
-    // SQL Query > Update Data
-    client.query('UPDATE items SET text=($1), complete=($2) WHERE id=($3)',
-    [data.text, data.complete, id]);
-    // SQL Query > Select Data
-    const query = client.query("SELECT * FROM items ORDER BY id ASC");
-    // Stream results back one row at a time
-    query.on('row', (row) => {
-      results.push(row);
-    });
-    // After all data is returned, close connection and return results
-    query.on('end', function() {
-      done();
-      return res.json(results);
-    });
-  });
 });
 
 module.exports = router;
