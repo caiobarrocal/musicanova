@@ -97,4 +97,53 @@ table td img {
 
 }
 
+.resultados {
+
+	padding: 50px;
+	width: 100%;
+}
+
+
+.resultados h2 {
+
+	font-size: 35px;
+	color: #595056;
+	margin-bottom: 60px;
+}
+
+.resultados .result_row {
+
+	width: 100%;
+	height: 150px;
+	border-bottom: 1px solid #dedfe0;
+	padding-bottom: 20px;
+	margin-bottom: 20px;
+}
+
+.resultados .result_img {
+
+	float: left;
+	width: 13%;
+}
+
+.resultados .result_row img {
+
+	width: 130px;
+	
+}
+
+.resultados .result_row .result_infos {
+
+	width: 87%;
+	float: left;
+	
+}
+
+.resultados .result_row .result_infos h4{
+
+	font-size: 20px;
+	margin-top: 5px;
+	margin-bottom: 0;
+	color: #595056
+}
 
