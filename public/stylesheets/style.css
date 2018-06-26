@@ -1,15 +1,17 @@
 body {
   padding: 50px;
   font-family: 'Lato', sans-serif;;
+  padding: 0;
 }
 
 h1 {
 	font-size: 50px;
-	color: #444444;
+	color: #595056;
 }
 
 label {
 	font-size: 14px;
+	color: #595056;
 }
 
 .up {
@@ -38,7 +40,15 @@ label {
 	width:60% !important;
 
 	margin: 0;
-	margin-top: 50px;
+	margin-top: 40px;
+}
+
+.right a {
+
+	float: left;
+	margin-left: 50px;
+	margin-top: -10px;
+
 }
 
 .right .btn {
@@ -66,6 +76,25 @@ table {
 	width: 100%;
 	text-align: left;
 	line-height: 30px;
+}
+
+table td img {
+	width: 70px;
+}
+
+.stripe {
+
+	width: 100%;
+	height: 35px;
+	margin-bottom: 30px;
+	background-color: #c42055;
+}
+
+.btn {
+	
+	background-color: #433141;
+	border: 0;
+
 }
 
 

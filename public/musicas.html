@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html ng-app="nodeMusic">
+  <head>
+    <title>USPotify</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="stylesheets/manage.css" rel="stylesheet" media="screen">
+  </head>
+  <body ng-controller="mainController">
+    <div class="stripe"></div>
+    <div class="container">
+
+      <!-- Cadastro de Músicas -->
+        <div class="man-block">
+          <h2> CADASTRAR MÚSICA </h2>
+          <form>
+            <div class="form-group">
+              <label>Id da Música: </label>
+              <input type="text" class="form-control " placeholder="ID" ng-model="formMusic.id"> <br />
+
+              <label>Título: </label>
+              <input type="text" class="form-control " placeholder="Titulo da Música" ng-model="formMusic.titulo"> <br />
+
+              <label>Arquivo de Áudio: </label>
+              <input type="text" class="form-control " placeholder="caminho..." ng-model="formMusic.arquivo"> <br />
+
+              <label>Gênero: </label>
+              <input type="text" class="form-control " placeholder="Pop, Indie, Samba..." ng-model="formMusic.genero"> <br />
+
+              <label>Relevância de Gênero: </label>
+              <input type="text" class="form-control " placeholder="De 0 a 100" ng-model="formMusic.relevancia"> <br />
+
+              <label>Explícita: </label>
+              <input type="text" class="form-control " placeholder="Indicador booleano de explícita" ng-model="formMusic.exp"> <br />
+
+              <label>Id do Album : </label>
+              <input type="text" class="form-control " placeholder="ID do Album a qual Pertence" ng-model="formMusic.album"> <br />
+
+              <label>Número da Faixa </label>
+              <input type="text" class="form-control " placeholder="0" ng-model="formMusic.faixa"> <br />
+
+              <label>Duração </label>
+              <input type="text" class="form-control " placeholder="00:00:00" ng-model="formMusic.dur"> <br />
+
+            </div>
+
+            <button type="submit" class="btn btn-primary " ng-click="createMusic()">Cadastrar Música</button>
+
+          </form>
+      </div>
+      <div class="man-block">
+
+        <h2> REMOVER MÚSICA </h2>
+        <form action="/api/v1/delmusica", method="POST">
+          <div class="form-group">
+
+            <label>Id da Música: </label>
+            <input type="text" class="form-control " placeholder="ID" name="id"> <br />
+
+          </div>
+
+          <button type="submit" class="btn btn-primary ">Remover Música</button>
+
+        </form>
+
+      </div>
+
+      <div class="man-block">
+
+        <h2> ALTERAR MÚSICA </h2>
+
+        <div class="container">
+          <form action="/api/v1/updatemusic", method="POST">
+            <div class="form-group">
+              <label>Id da Música: </label>
+              <input type="text" class="form-control " placeholder="ID" name="id"> <br />
+
+              <label>Título: </label>
+              <input type="text" class="form-control " placeholder="Titulo da Música" name="titulo"> <br />
+
+              <label>Arquivo de Áudio: </label>
+              <input type="text" class="form-control " placeholder="caminho..." name="arquivo"> <br />
+
+              <label>Gênero: </label>
+              <input type="text" class="form-control " placeholder="Pop, Indie, Samba..." name = "genero"> <br />
+
+              <label>Relevância de Gênero: </label>
+              <input type="text" class="form-control " placeholder="De 0 a 100" name = "relevancia"> <br />
+
+              <label>Explícita: </label>
+              <input type="text" class="form-control " placeholder="Indicador booleano de explícita" name = "exp"> <br />
+
+              <label>Id do Album : </label>
+              <input type="text" class="form-control " placeholder="ID do Album a qual Pertence" name="album"> <br />
+
+              <label>Número da Faixa </label>
+              <input type="text" class="form-control " placeholder="0" name= "faixa"> <br />
+
+              <label>Duração </label>
+              <input type="text" class="form-control " placeholder="00:00:00" name= "dur"> <br />
+
+            </div>
+
+            <button type="submit" class="btn btn-primary " ">Alterar Música</button>
+
+          </form>
+        </div>
+      </div>
+
+    </div>
+    <script src="//code.jquery.com/jquery-2.2.4.min.js" type="text/javascript"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.6/angular.min.js"></script>
+    <script src="javascripts/app.js"></script>
+  </body>
+</html>

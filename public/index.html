@@ -8,6 +8,8 @@
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
   </head>
   <body ng-controller="mainController">
+
+    <div class="stripe"></div>
     <div class="container">
 
     	<div class="up">
@@ -16,16 +18,18 @@
 
 	        <!-- Busca de Albuns -->
 	          <div class="container right" >
-	            <form action="/api/v1/searchalbum" method="POST">
+	            <form action="/api/v1/searchmusic" method="POST">
 	                <div class="form-group">
 	                
-	                <input type="text" class="form-control" placeholder="Faça uma busca" name="searchString"> <br />
+	                <input type="text" class="form-control" placeholder="Busque uma música..." name="searchString"> <br />
 
 	              </div>
 
 	              <button type="submit" class="btn btn-primary ">Buscar</button>
 
 	            </form>
+
+
 	        </div>
 
     	</div>
@@ -36,6 +40,23 @@
 
 
     	</div>
+
+      <div class="sugestion">
+        
+        <h4>Porque você ouviu Beach House...</h4>
+
+
+      </div>
+
+      <div class="sugestion">
+        
+        <h4>O que seus amigos estão ouvindo?</h4>
+
+        
+
+
+      </div>
+
 
     	<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
         <!-- Busca de Artistas -->

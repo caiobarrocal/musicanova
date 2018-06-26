@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html ng-app="nodeMusic">
+  <head>
+    <title>USPotify</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="stylesheets/manage.css" rel="stylesheet" media="screen">
+  </head>
+  <body ng-controller="mainController">
+
+      <div class="stripe"></div>
+      <!-- Cadastro de Artistas -->
+      <div class="container">
+
+      
+
+      <div class="man-block">
+          <h2> CADASTRAR ARTISTA </h2>
+          <form action="/api/v1/artista", method="POST">
+            <div class="form-group">
+              <label>Id do Artista: </label>
+              <input type="text" class="form-control " placeholder="ID" name="id"> <br />
+
+              <label>Nome do Artista (ou banda): </label>
+              <input type="text" class="form-control " placeholder="Nome" name="nome"> <br />
+
+              <label>Biografia: </label>
+              <input type="text" class="form-control " placeholder="Este artista nasceu em..." name="bio"> <br />
+
+              <label>Foto de Perfil: </label>
+              <input type="text" class="form-control " placeholder="Caminho para foto no servidor" name="foto"> <br />
+
+              <label>Verificado: </label>
+              <input type="text" class="form-control " placeholder="True or False" name="verif"> <br />
+
+              <label>Pais do Artista </label>
+              <input type="text" class="form-control " placeholder="Pais" name="p"> <br />
+
+            </div>
+
+            <button type="submit" class="btn btn-primary " >Cadastrar Artista</button>
+
+          </form>
+      </div>
+
+      <div class="man-block">
+        <h2> REMOVER ARTISTA </h2>
+        <form action="/api/v1/delartista", method="POST">
+          <div class="form-group">
+            <label>Nome do Artista: </label>
+            <input type="text" class="form-control " placeholder="Nome" name="nome"> <br />
+
+          </div>
+
+          <button type="submit" class="btn btn-primary ">Remover Artista</button>
+
+        </form>
+      </div>
+
+      <div class="man-block">
+        <h2> ALTERAR ARTISTA </h2>
+        <form action="/api/v1/updateartista", method="POST">
+          <div class="form-group">
+            <label>Id do Artista a ser alterado: </label>
+            <input type="text" class="form-control " placeholder="ID" name="id"> <br />
+
+            <label>Nome do Artista (ou banda): </label>
+            <input type="text" class="form-control " placeholder="Nome" name="nome"> <br />
+
+            <label>Biografia: </label>
+            <input type="text" class="form-control " placeholder="Este artista nasceu em..." name="bio"> <br />
+
+            <label>Foto de Perfil: </label>
+            <input type="text" class="form-control " placeholder="Caminho para foto no servidor" name="foto"> <br />
+
+            <label>Verificado: </label>
+            <input type="text" class="form-control " placeholder="True or False" name="verif"> <br />
+
+            <label>Pais do Artista </label>
+            <input type="text" class="form-control " placeholder="Pais" name="p"> <br />
+
+          </div>
+
+          <button type="submit" class="btn btn-primary " >Alterar Artista</button>
+
+        </form>
+      </div>
+
+    </div>
+    <script src="//code.jquery.com/jquery-2.2.4.min.js" type="text/javascript"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.6/angular.min.js"></script>
+    <script src="javascripts/app.js"></script>
+  </body>
+</html>

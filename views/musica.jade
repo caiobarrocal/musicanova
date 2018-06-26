@@ -1,0 +1,29 @@
+extends layout
+
+block content
+    h1 Resultado da Busca
+
+    if table == "Musica"
+        - var th1 = "Título"
+        - var th2 = "Explicita"
+        - var th3 = "Duração"
+        - var th4 = "Foto"
+
+    table
+        thead
+            tr
+                th= th4
+                th= th1
+                th= th2
+                th= th3
+                
+
+            tbody
+                - each row in rows
+                  tr
+                    td
+                      img(src= row[3])
+                    td= row[0]
+                    td= row[1]
+                    td= row[2]
+                     

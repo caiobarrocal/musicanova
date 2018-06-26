@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html ng-app="nodeMusic">
+  <head>
+    <title>USPotify</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="stylesheets/manage.css" rel="stylesheet" media="screen">
+  </head>
+  <body ng-controller="mainController">
+
+    <div class="stripe"></div>
+      <!-- Cadastro de Usuários -->
+    <div class="container">
+
+      <div class="man-block">
+
+        <h2> CADASTRAR USUÁRIO </h2>
+        <form>
+          <div class="form-group">
+            <label>Id do Usuário: </label>
+            <input type="text" class="form-control" placeholder="ID" ng-model="formUser.id"> <br />
+
+            <label>Nome: </label>
+            <input type="text" class="form-control" placeholder="Fulano da Silva" ng-model="formUser.nome"> <br />
+
+            <label>Data de Nascimento: </label>
+            <input type="text" class="form-control" placeholder="MO-DA-YEAR" ng-model="formUser.datan"> <br />
+
+            <label>País: </label>
+            <input type="text" class="form-control" placeholder="US" ng-model="formUser.pais"> <br />
+
+
+            <label>Foto de Perfil </label>
+            <input type="text" class="form-control" placeholder="http://foto" ng-model="formUser.foto"> <br />
+
+          </div>
+
+          <button type="submit" class="btn btn-primary " ng-click="createUser()">Cadastrar Usuário</button>
+
+        </form>
+      </div>
+      <div class="man-block">
+
+        <h2> REMOVER USUÁRIO </h2>
+        <form action="/api/v1/delUser", method="POST">
+          <div class="form-group">
+
+            <label>ID do Usuário: </label>
+            <input type="text" class="form-control" placeholder="ID" name="id"> <br />
+
+          </div>
+
+          <button type="submit" class="btn btn-primary ">Remover Usuário</button>
+
+        </form>
+
+      </div>
+
+      
+
+      <div class="man-block">
+
+        <h2> ALTERAR USUÁRIO </h2>
+
+        <form action="/api/v1/updateuser", method="POST">
+          <div class="form-group">
+            <label>Id do Usuário: </label>
+            <input type="text" class="form-control" placeholder="ID" name="id"> <br />
+
+            <label>Nome: </label>
+            <input type="text" class="form-control" placeholder="Fulano da Silva" name = "nome"> <br />
+
+            <label>Data de Nascimento: </label>
+            <input type="text" class="form-control" placeholder="MO-DA-YEAR" name = "datan"> <br />
+
+            <label>País: </label>
+            <input type="text" class="form-control" placeholder="US" name = "pais"> <br />
+
+
+            <label>Foto de Perfil </label>
+            <input type="text" class="form-control" placeholder="http://foto" name = "foto"> <br />
+
+          </div>
+
+          <button type="submit" class="btn btn-primary "> Alterar Usuário </button>
+
+        </form>
+      </div>
+
+    </div>
+    <script src="//code.jquery.com/jquery-2.2.4.min.js" type="text/javascript"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.6/angular.min.js"></script>
+    <script src="javascripts/app.js"></script>
+  </body>
+</html>

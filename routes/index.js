@@ -194,9 +194,32 @@ router.post('/api/v1/music', (req, res, next) => {
 //Create a new user
 router.post('/api/v1/user', (req, res, next) => {
   const results = [];
+
+
   // Grab data from http request
   const data = {id: req.body.id, nome: req.body.nome, datan: req.body.datan, pais: req.body.pais, foto: req.body.foto};
+  
+  // Inserir no BD em Grafos
+  
+  const neodata = {id: req.body.id, nome: req.body.nome};
+  var params = {"nome": neodata.nome, "id": neodata.id};
+  var neoquery = "CREATE (a:Usuario {nome: $nome, id: $id}) RETURN a";
+  var neosession = neodriver.session();
+
+  neosession.run(neoquery, params)
+    .then(function(result) {
+      result.records.forEach(function(record) {
+          console.log(record.get('a'));
+           // on application exit:
+        driver.close();
+      })
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+
   // Get a Postgres client from the connection pool
+
   pg.connect(config, (err, client, done) => {
     // Handle connection errors
     if(err) {
@@ -583,9 +606,9 @@ router.post('/api/v1/searchmusic', (req, res) => {
     const searchString = ['%' + req.body.searchString + '%'];
 
     pg.connect(config, (err, client, done) => {
-        const text = 'SELECT titulo, explicita, duracao'
-            + ' FROM USPotify.Musica'
-            + ' WHERE titulo LIKE ($1);';
+        const text = 'SELECT musica.titulo, explicita, musica.duracao, foto_capa'
+            + ' FROM USPotify.Musica, USPotify.Album'
+            + ' WHERE musica.id_album = album.id AND musica.titulo LIKE ($1);';
         const query = client.query({
             text: text,
             values: searchString,
@@ -593,7 +616,7 @@ router.post('/api/v1/searchmusic', (req, res) => {
         });
         query.on('end', () => {
             done();
-            return res.render('results', {table: "Musica", rows: query._result.rows});
+            return res.render('musica', {table: "Musica", rows: query._result.rows});
         });
     });
 });
@@ -615,6 +638,30 @@ router.post('/api/v1/searchuser', (req, res) => {
             return res.render('results', {table: "Usuario", rows: query._result.rows});
         });
     });
+});
+
+router.get('/api/v1/friends', (req, res, next) => {
+  const results = [];
+  // Get a Postgres client from the connection pool
+  pg.connect(connectionString, (err, client, done) => {
+    // Handle connection errors
+    if(err) {
+      done();
+      console.log(err);
+      return res.status(500).json({success: false, data: err});
+    }
+    // SQL Query > Select Data
+    const query = client.query('SELECT * FROM items ORDER BY id ASC;');
+    // Stream results back one row at a time
+    query.on('row', (row) => {
+      results.push(row);
+    });
+    // After all data is returned, close connection and return results
+    query.on('end', () => {
+      done();
+      return res.json(results);
+    });
+  });
 });
 
 router.post('/api/v1/searchplaylist', (req, res) => {
