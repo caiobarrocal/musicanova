@@ -629,12 +629,14 @@ router.post('/api/v1/relacionarartista', (req, res) => {
   var neoquery = "MATCH (a:Artista),(b:Artista) WHERE a.id = $id1 AND b.id = $id2 CREATE (a)-[r:RELACIONADO { relevancia: $relevancia }]->(b) RETURN type(r), r.relevancia";
   var neosession = neodriver.session();
 
+
   neosession.run(neoquery, params)
     .then(function(result) {
       result.records.forEach(function(record) {
-          console.log("RELACIONADO");
+          console.log(record.get('r.relevancia'));
            // on application exit:
         neodriver.close();
+        res.redirect('/artistas.html');
       })
     })
     .catch(function(error) {
