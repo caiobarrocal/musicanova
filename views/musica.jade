@@ -7,14 +7,15 @@ block content
 
         - each row in rows
             .result_row
-                .result_img
-                    img(src= row[3])
+                a(href=row[4])
+                    .result_img
+                        img(src= row[3])
 
-                .result_infos
+                    .result_infos
 
-                    h4= row[0]
-                    p= row[1]
-                    p= row[2]
+                        h4= row[0]
+                        p= row[5]
+                        p.dur= row[2]
 
                 
                     

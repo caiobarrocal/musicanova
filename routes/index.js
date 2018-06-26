@@ -586,9 +586,9 @@ router.post('/api/v1/searchmusic', (req, res) => {
     const searchString = ['%' + req.body.searchString + '%'];
 
     pg.connect(config, (err, client, done) => {
-        const text = 'SELECT musica.titulo, explicita, musica.duracao, foto_capa, arquivo_audio'
-            + ' FROM USPotify.Musica, USPotify.Album'
-            + ' WHERE musica.id_album = album.id AND musica.titulo LIKE ($1);';
+        const text = 'SELECT musica.titulo, explicita, musica.duracao, foto_capa, arquivo_audio, artista.nome'
+            + ' FROM USPotify.Musica, USPotify.Album, USPotify.Artista, USPotify.Gravou'
+            + ' WHERE musica.id_album = album.id AND musica.titulo LIKE ($1) AND gravou.id_artista = artista.id AND gravou.id_album = album.id;';
         const query = client.query({
             text: text,
             values: searchString,
