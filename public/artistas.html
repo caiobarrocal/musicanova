@@ -6,7 +6,7 @@
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="stylesheets/manage.css" rel="stylesheet" media="screen">
   </head>
-  <body ng-controller="mainController">
+  <body>
 
       <div class="stripe"></div>
       <!-- Cadastro de Artistas -->
@@ -47,8 +47,8 @@
         <h2> REMOVER ARTISTA </h2>
         <form action="/api/v1/delartista", method="POST">
           <div class="form-group">
-            <label>Nome do Artista: </label>
-            <input type="text" class="form-control " placeholder="Nome" name="nome"> <br />
+            <label>Id do Artista: </label>
+            <input type="text" class="form-control " placeholder="ID" name="id"> <br />
 
           </div>
 

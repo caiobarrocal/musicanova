@@ -6,7 +6,7 @@
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="stylesheets/manage.css" rel="stylesheet" media="screen">
   </head>
-  <body ng-controller="mainController">
+  <body>
     <!-- Cadastro de Álbuns -->
 
     <div class="stripe"></div>
@@ -71,7 +71,7 @@
         <form action="/api/v1/updatealbum", method="POST">
           <div class="form-group">
             
-            <label>Id do Artista a ser alterado: </label>
+            <label>Id do Álbum a ser alterado: </label>
             <input type="text" class="form-control " placeholder="ID" name="id"> <br />
 
             <label>Nome do Álbum: </label>

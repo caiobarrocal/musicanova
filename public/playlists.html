@@ -6,7 +6,7 @@
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="stylesheets/manage.css" rel="stylesheet" media="screen">
   </head>
-  <body ng-controller="mainController">
+  <body>
 
     <div class="stripe"></div>
     <!-- Criação de Playlists -->
@@ -56,11 +56,8 @@
         <form action="/api/v1/delPlay", method="POST">
           <div class="form-group">
 
-            <label>Nome da Playlist: </label>
-            <input type="text" class="form-control " placeholder="Nome" name="nome"> <br />
-
-            <label>ID Criador da Playlist: </label>
-            <input type="text" class="form-control " placeholder="ID" name="id"> <br />
+            <label>ID da Playlist: </label>
+            <input type="text" class="form-control " placeholder="Id da Playlist" name="id"> <br />
 
           </div>
 

@@ -49,18 +49,8 @@ router.post('/api/v1/album', (req, res, next) => {
     client.query('INSERT INTO USPotify.Gravou(id_artista, id_album) values($1, $2)',
     [data.id_artista, data.id]);
 
-
-    // SQL Query > Select Data
-    const query = client.query('SELECT * FROM USPotify.Album');
-    // Stream results back one row at a time
-    query.on('row', (row) => {
-      results.push(row);
-    });
-    // After all data is returned, close connection and return results
-    query.on('end', () => {
-      done();
-      return res.json(results);
-    });
+    res.redirect('/albuns.html');
+    
   });
 });
 
@@ -112,21 +102,9 @@ router.post('/api/v1/artista', (req, res, next) => {
     client.query('INSERT INTO USPotify.Artista(id, nome, bio, foto_perfil, verificado, pais) values($1, $2, $3, $4, $5, $6)',
     values);
 
-    // SQL Query > Select Data
-    const query = client.query('SELECT * FROM USPotify.Artista');
-    // Stream results back one row at a time
-    query.on('row', (row) => {
-      results.push(row);
-    });
-    // After all data is returned, close connection and return results
-    query.on('end', () => {
-      return res.render('results', {table: "Artista", rows: query._result.rows});
-      done();
+    res.redirect('/artistas.html');
 
-    });
   });
-
-  return res.json(results);
 
 
 });
@@ -155,19 +133,7 @@ router.post('/api/v1/music', (req, res, next) => {
     client.query('INSERT INTO USPotify.Tem_Genero(id_musica, nome_genero, relevancia) values($1, $2, $3)',
     [data.id, data.genero, data.relevancia]);
 
-
-
-    // SQL Query > Select Data
-    const query = client.query('SELECT * FROM USPotify.Musica');
-    // Stream results back one row at a time
-    query.on('row', (row) => {
-      results.push(row);
-    });
-    // After all data is returned, close connection and return results
-    query.on('end', () => {
-      done();
-      return res.json(results);
-    });
+    res.redirect('/musicas.html');
   });
 });
 
@@ -225,7 +191,7 @@ router.post('/api/v1/user', (req, res, next) => {
 });
 
 //Create a new playlist
-router.post('/api/v1/playli-h st', (req, res, next) => {
+router.post('/api/v1/playlist', (req, res, next) => {
   const results = [];
   // Grab data from http request
   const data = {id: req.body.id, nome: req.body.nome, desc: req.body.desc, datac: '01-01-2000',  foto: req.body.foto, pub: req.body.pub, criador: req.body.criador, colab: req.body.colab, dur: req.body.dur, segs: '0'};
@@ -263,9 +229,26 @@ router.post('/api/v1/playli-h st', (req, res, next) => {
 // Delete Artist
 router.post('/api/v1/delartista', (req, res) => {
     const results = [];
-    const nome = req.body.nome;
+    const id = req.body.id;
 
-    console.log(req.body);
+    // Remover do BD em Grafos
+
+    const neodata = {id: req.body.id};
+    var params = {"id": neodata.id};
+    var neoquery = "MATCH (n:Artista { id: $id }) DETACH DELETE n";
+    var neosession = neodriver.session();
+
+    neosession.run(neoquery, params)
+      .then(function(result) {
+        result.records.forEach(function(record) {
+            console.log(record.get('n'));
+             // on application exit:
+          driver.close();
+        })
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
 
     pg.connect(config, (err, client, done) => {
         if (err) {
@@ -274,18 +257,9 @@ router.post('/api/v1/delartista', (req, res) => {
             return res.status(500).json({success: false, data: err});
         }
         // SQL Query -> Delete Artist
-        client.query('DELETE FROM USPotify.Artista WHERE nome=($1)', [nome]);
+        client.query('DELETE FROM USPotify.Artista WHERE id=($1)', [id]);
         // SQL Query -> Select Artists
-        const query = client.query('SELECT * FROM USPotify.Artista');
-        // Stream results back one row at a time
-        query.on('row', (row) => {
-          results.push(row);
-        });
-        // After all data is returned, close connection and return results
-        query.on('end', () => {
-          done();
-          return res.json(results);
-        });
+        res.redirect('/artistas.html');
     });
 });
 
@@ -307,16 +281,7 @@ router.post('/api/v1/delAlbum', (req, res) => {
         // SQL Query -> Delete Artist
         client.query('DELETE FROM USPotify.Album WHERE id=($1)', [id]);
         // SQL Query -> Select Artists
-        const query = client.query('SELECT * FROM USPotify.Album');
-        // Stream results back one row at a time
-        query.on('row', (row) => {
-          results.push(row);
-        });
-        // After all data is returned, close connection and return results
-        query.on('end', () => {
-          done();
-          return res.json(results);
-        });
+        res.redirect('/albuns.html');
     });
 });
 
@@ -335,16 +300,7 @@ router.post('/api/v1/delmusica', (req, res) => {
         // SQL Query -> Delete Artist
         client.query('DELETE FROM USPotify.Musica WHERE id=($1)', [id]);
         // SQL Query -> Select Artists
-        const query = client.query('SELECT * FROM USPotify.Musica');
-        // Stream results back one row at a time
-        query.on('row', (row) => {
-          results.push(row);
-        });
-        // After all data is returned, close connection and return results
-        query.on('end', () => {
-          done();
-          return res.json(results);
-        });
+        res.redirect('/musicas.html');
     });
 });
 
@@ -352,10 +308,8 @@ router.post('/api/v1/delmusica', (req, res) => {
 router.post('/api/v1/delPlay', (req, res) => {
     const results = [];
 
-    const id_criador = req.body.id;
-    const nome = req.body.nome;
+    const id = req.body.id;
 
-    console.log(req.body);
 
     pg.connect(config, (err, client, done) => {
         if (err) {
@@ -364,18 +318,9 @@ router.post('/api/v1/delPlay', (req, res) => {
             return res.status(500).json({success: false, data: err});
         }
         // SQL Query -> Delete Artist
-        client.query('DELETE FROM USPotify.Playlist WHERE nome=($1) AND id_criador=($2)', [nome, id_criador]);
+        client.query('DELETE FROM USPotify.Playlist WHERE id=($1)', [id]);
         // SQL Query -> Select Artists
-        const query = client.query('SELECT * FROM USPotify.Playlist');
-        // Stream results back one row at a time
-        query.on('row', (row) => {
-          results.push(row);
-        });
-        // After all data is returned, close connection and return results
-        query.on('end', () => {
-          done();
-          return res.json(results);
-        });
+        res.redirect('/playlists.html');
     });
 });
 
@@ -385,8 +330,25 @@ router.post('/api/v1/delUser', (req, res) => {
 
     const id = req.body.id;
 
+    // Remover do BD em Grafos
 
-    console.log(req.body);
+    const neodata = {id: req.body.id};
+    var params = {"id": neodata.id};
+    var neoquery = "MATCH (n:Usuario { id: $id }) DETACH DELETE n";
+    var neosession = neodriver.session();
+
+    neosession.run(neoquery, params)
+      .then(function(result) {
+        result.records.forEach(function(record) {
+            console.log(record.get('a'));
+             // on application exit:
+          driver.close();
+        })
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
 
     pg.connect(config, (err, client, done) => {
         if (err) {
@@ -397,16 +359,8 @@ router.post('/api/v1/delUser', (req, res) => {
         // SQL Query -> Delete Artist
         client.query('DELETE FROM USPotify.Usuario WHERE id=($1)', [id]);
         // SQL Query -> Select Artists
-        const query = client.query('SELECT * FROM USPotify.Usuario');
-        // Stream results back one row at a time
-        query.on('row', (row) => {
-          results.push(row);
-        });
-        // After all data is returned, close connection and return results
-        query.on('end', () => {
-          done();
-          return res.json(results);
-        });
+        res.redirect('/usuarios.html');
+        
     });
 });
 
@@ -429,21 +383,20 @@ router.post('/api/v1/updatealbum', (req, res) => {
     pg.connect(config, (err, client, done) => {
         const results = [];
         const text = 'UPDATE USPotify.Album'
-        + ' SET id=($1), nome=($2), produtora=($3), tipo=($4), duracao=($5), foto_capa=($6), ano=($7)'
+        + ' SET nome=($2), produtora=($3), tipo=($4), duracao=($5), foto_capa=($6), ano=($7)'
         + ' WHERE id=($1)';
 
-        client.query(text, values);
+        client.query(text, values, (err, res) => {
 
-        const query = client.query('SELECT * FROM USPotify.Album');
-        // Stream results back one row at a time
-        query.on('row', (row) => {
-          results.push(row);
+            if (err) {
+                return console.log(err.message);
+            } else {
+                console.log(res);
+            }
         });
-        // After all data is returned, close connection and return results
-        query.on('end', () => {
-          done();
-          return res.json(results);
-        });
+        res.redirect('/albuns.html');
+
+        
     });
 });
 
@@ -458,23 +411,39 @@ router.post('/api/v1/updateartista', (req, res) => {
         req.body.p
     ];
 
+    const neodata = {id: req.body.id, nome: req.body.nome};
+    var params = {"nome": neodata.nome, "id": neodata.id};
+    var neoquery = "MATCH (n:Artista { id: $id }) SET n.nome = $nome RETURN n";
+    var neosession = neodriver.session();
+
+    neosession.run(neoquery, params)
+      .then(function(result) {
+        result.records.forEach(function(record) {
+            console.log(record.get('n'));
+             // on application exit:
+          driver.close();
+        })
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
     pg.connect(config, (err, client, done) => {
         const results = [];
         const text = 'UPDATE USPotify.Artista'
-        + ' SET id=($1), nome=($2), bio=($3), foto_perfil=($4), verificado=($5), pais=($6)'
+        + ' SET nome=($2), bio=($3), foto_perfil=($4), verificado=($5), pais=($6)'
         + ' WHERE id=($1)';
 
-        client.query(text, values);
-        const query = client.query('SELECT * FROM USPotify.Artista');
-        // Stream results back one row at a time
-        query.on('row', (row) => {
-          results.push(row);
+        client.query(text, values, (err, res) => {
+
+            if (err) {
+                return console.log(err.message);
+            } else {
+                console.log(res);
+            }
         });
-        // After all data is returned, close connection and return results
-        query.on('end', () => {
-          done();
-          return res.json(results);
-        });
+        res.redirect('/artistas.html');
+        
     });
 });
 
@@ -484,7 +453,6 @@ router.post('/api/v1/updatemusic', (req, res) => {
         req.body.id,
         req.body.titulo,
         req.body.arquivo,
-        req.body.genero,
         req.body.exp,
         req.body.album,
         req.body.faixa,
@@ -494,20 +462,19 @@ router.post('/api/v1/updatemusic', (req, res) => {
     pg.connect(config, (err, client, done) => {
         const results = [];
         const text = 'UPDATE USPotify.Musica'
-        + ' SET id=($1), titulo=($2), arquivo_audio=($3), genero=($4), explicita=($5), id_album=($6), faixa=($7), duracao=($8)'
+        + ' SET titulo=($2), arquivo_audio=($3), explicita=($4), id_album=($5), faixa=($6), duracao=($7)'
         + ' WHERE id=($1)';
 
-        client.query(text, values);
-        const query = client.query('SELECT * FROM USPotify.Musica');
-        // Stream results back one row at a time
-        query.on('row', (row) => {
-          results.push(row);
+        client.query(text, values, (err, res) => {
+
+            if (err) {
+                return console.log(err.message);
+            } else {
+                console.log(res);
+            }
         });
-        // After all data is returned, close connection and return results
-        query.on('end', () => {
-          done();
-          return res.json(results);
-        });
+        res.redirect('/musicas.html');
+        
     });
 });
 
@@ -521,23 +488,39 @@ router.post('/api/v1/updateuser', (req, res) => {
         req.body.foto,
     ];
 
+    const neodata = {id: req.body.id, nome: req.body.nome};
+    var params = {"id": neodata.id, "nome": neodata.nome};
+    var neoquery = "MATCH (n:Usuario { id: $id }) SET n.nome = $nome RETURN n";
+    var neosession = neodriver.session();
+
+    neosession.run(neoquery, params)
+      .then(function(result) {
+        result.records.forEach(function(record) {
+            console.log(record.get('n'));
+             // on application exit:
+          driver.close();
+        })
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
     pg.connect(config, (err, client, done) => {
         const results = [];
         const text = 'UPDATE USPotify.Usuario'
-        + ' SET id=($1), nome=($2), data_nasc=($3), pais=($4), foto_perfil=($5)'
+        + ' SET nome=($2), data_nasc=($3), pais=($4), foto_perfil=($5)'
         + ' WHERE id=($1)';
 
-        client.query(text, values);
-        const query = client.query('SELECT * FROM USPotify.Usuario');
-        // Stream results back one row at a time
-        query.on('row', (row) => {
-          results.push(row);
+        client.query(text, values, (err, res) => {
+
+            if (err) {
+                return console.log(err.message);
+            } else {
+                console.log(res);
+            }
         });
-        // After all data is returned, close connection and return results
-        query.on('end', () => {
-          done();
-          return res.json(results);
-        });
+        res.redirect('/usuarios.html');
+        
     });
 });
 
@@ -568,7 +551,7 @@ router.post('/api/v1/updateplaylist', (req, res) => {
                 console.log(res);
             }
         });
-        const query = client.query('SELECT * FROM USPotify.Playlist;');
+        // const query = client.query('SELECT * FROM USPotify.Playlist;');
         res.redirect('/playlists.html');
         // query.on('end', () => {
         //     done();

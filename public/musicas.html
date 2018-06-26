@@ -6,7 +6,7 @@
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="stylesheets/manage.css" rel="stylesheet" media="screen">
   </head>
-  <body ng-controller="mainController">
+  <body>
     <div class="stripe"></div>
     <div class="container">
 
@@ -69,7 +69,7 @@
 
         <h2> ALTERAR MÚSICA </h2>
 
-        <div class="container">
+        
           <form action="/api/v1/updatemusic", method="POST">
             <div class="form-group">
               <label>Id da Música: </label>
@@ -80,12 +80,6 @@
 
               <label>Arquivo de Áudio: </label>
               <input type="text" class="form-control " placeholder="caminho..." name="arquivo"> <br />
-
-              <label>Gênero: </label>
-              <input type="text" class="form-control " placeholder="Pop, Indie, Samba..." name = "genero"> <br />
-
-              <label>Relevância de Gênero: </label>
-              <input type="text" class="form-control " placeholder="De 0 a 100" name = "relevancia"> <br />
 
               <label>Explícita: </label>
               <input type="text" class="form-control " placeholder="Indicador booleano de explícita" name = "exp"> <br />
@@ -104,7 +98,7 @@
             <button type="submit" class="btn btn-primary " ">Alterar Música</button>
 
           </form>
-        </div>
+       
       </div>
 
     </div>
