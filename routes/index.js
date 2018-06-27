@@ -114,7 +114,7 @@ router.post('/api/v1/artista', (req, res, next) => {
 router.post('/api/v1/music', (req, res, next) => {
   const results = [];
   // Grab data from http request
-  const data = {id: req.body.id, titulo: req.body.titulo, arquivo: req.body.arquivo, exp: req.body.exp, id_album: req.body.album, faixa: req.body.faixa, duracao: req.body.dur, genero: req.body.genero, relevancia: req.body.relevancia};
+  const data = {id: req.body.id, titulo: req.body.titulo, arquivo: req.body.arquivo, expli: req.body.expli, id_album: req.body.album, faixa: req.body.faixa, duracao: req.body.dur, genero: req.body.genero, relevancia: req.body.relevancia};
   // Get a Postgres client from the connection pool
   pg.connect(config, (err, client, done) => {
     // Handle connection errors
@@ -125,7 +125,7 @@ router.post('/api/v1/music', (req, res, next) => {
     }
     // SQL Query > Insert Data
     client.query('INSERT INTO USPotify.Musica(id, titulo, arquivo_audio, explicita, id_album, faixa, duracao) values($1, $2, $3, $4, $5, $6, $7)',
-    [data.id, data.titulo, data.arquivo, data.exp, data.id_album, data.faixa, data.duracao]);
+    [data.id, data.titulo, data.arquivo, data.expli, data.id_album, data.faixa, data.duracao]);
 
     // Aqui seria legal verificar se o gênero que a pessoa estipulou para a música já existe na relação Genero.
     // Caso ele exista, OK! Do contrário, inserí-lo na relação Genero antes de fazer a inserção na Tem_Genero.
