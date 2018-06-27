@@ -176,17 +176,8 @@ router.post('/api/v1/user', (req, res, next) => {
     // SQL Query > Insert Data
     client.query('INSERT INTO USPotify.Usuario(id, nome, data_nasc, pais, foto_perfil) values($1, $2, $3, $4, $5)',
     [data.id, data.nome, data.datan, data.pais, data.foto]);
-    // SQL Query > Select Data
-    const query = client.query('SELECT * FROM USPotify.Usuario');
-    // Stream results back one row at a time
-    query.on('row', (row) => {
-      results.push(row);
-    });
-    // After all data is returned, close connection and return results
-    query.on('end', () => {
-      done();
-      return res.render('results', {table: "Usuario", rows: query._result.rows});;
-    });
+
+    res.redirect('/usuarios.html');
   });
 });
 
