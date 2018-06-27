@@ -15,34 +15,34 @@
       <div class="man-block">
 
         <h2> Cadastro de Álbuns </h2>
-        <form>
+        <form action="/api/v1/album", method="POST">
           <div class="form-group">
             <label>Id do Album: </label>
-            <input type="text" class="form-control " placeholder="ID" ng-model="formAlbum.id"> <br />
+            <input type="text" class="form-control " placeholder="ID" name="id"> <br />
 
             <label>Nome do Album: </label>
-            <input type="text" class="form-control " placeholder="Nome" ng-model="formAlbum.nome"> <br />
+            <input type="text" class="form-control " placeholder="Nome" name="nome"> <br />
 
             <label>ID do Artista: </label>
-            <input type="text" class="form-control " placeholder="Nome" ng-model="formAlbum.id_artista"> <br />
+            <input type="text" class="form-control " placeholder="Nome" name="id_artista"> <br />
 
             <label>Produtora: </label>
-            <input type="text" class="form-control " placeholder="Produtora" ng-model="formAlbum.prod"> <br />
+            <input type="text" class="form-control " placeholder="Produtora" name="prod"> <br />
 
             <label>Tipo do Album: </label>
-            <input type="text" class="form-control " placeholder="Album, EP ou Single" ng-model="formAlbum.tipo"> <br />
+            <input type="text" class="form-control " placeholder="Album, EP ou Single" name="tipo"> <br />
 
             <label>Duração: </label>
-            <input type="text" class="form-control " placeholder="00:00:00" ng-model="formAlbum.dur"> <br />
+            <input type="text" class="form-control " placeholder="00:00:00" name="dur"> <br />
 
             <label>Foto de Capa: </label>
-            <input type="text" class="form-control " placeholder="Caminho da imagem" ng-model="formAlbum.foto"> <br />
+            <input type="text" class="form-control " placeholder="Caminho da imagem" name="foto"> <br />
 
             <label>Data do Álbum: </label>
-            <input type="text" class="form-control " placeholder="01-01-2000" ng-model="formAlbum.ano"> <br />
+            <input type="text" class="form-control " placeholder="01-01-2000" name="ano"> <br />
           </div>
 
-          <button type="submit" class="btn btn-primary " ng-click="createAlbum()">Cadastrar Album</button>
+          <button type="submit" class="btn btn-primary "">Cadastrar Álbum</button>
 
         </form>
 
