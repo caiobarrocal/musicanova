@@ -26,6 +26,16 @@ angular.module('nodeMusic', [])
     console.log('Error: ' + error);
   });
 
+  // Get all todos
+  $http.get('/api/v1/sugfriends')
+  .success((data) => {
+    $scope.friendsData = data;
+    console.log(data);
+  })
+  .error((error) => {
+    console.log('Error: ' + error);
+  });
+
   // Get all music
   /*
   $scope.getMusic = () => {

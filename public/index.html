@@ -59,14 +59,15 @@
         
         <h4>Porque você ouviu Beach House...</h4>
 
-        <div class="sug-list" >
+        <div class="sug-list list_art" >
           
             <div class="sug-item" ng-repeat="artist in artistData">
-              
-                <img src="{{ artist.foto_perfil }}" />
-                <h4><b>{{ artist.nome }}</b></h4>
                 
-
+                <div class="imagem_artista">
+                  <img src="{{ artist.foto_perfil }}" />
+                  
+                </div>
+                  <h4><b>{{ artist.nome }}</b></h4>
             </div>
 
           
@@ -78,8 +79,21 @@
 
       <div class="sugestion">
         
-        <h4>O que seus amigos estão ouvindo?</h4>
+        <h4>Seus amigos...</h4>
 
+        <div class="sug-list list_amigos" >
+          
+            <div class="sug-item" ng-repeat="friend in friendsData">
+                
+                <div class="imagem_perfil">
+                  <img src="{{ friend.foto_perfil }}" />
+                  
+                </div>
+                  <h4><b>{{ friend.nome }}</b></h4>
+            </div>
+
+          
+        </div>
 
 
 

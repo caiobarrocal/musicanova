@@ -192,3 +192,32 @@ table td img {
 	color: #595056
 }
 
+.imagem_artista {
+
+
+	width: 100%;
+	height: 90px;
+	overflow: hidden;
+	border-radius: 5px;
+	margin-bottom: 5px;
+	
+}
+
+.list_art {
+
+	height: 200px !important;
+}
+
+.imagem_perfil {
+
+	width: 100%;
+	height: 90px;
+	overflow: hidden;
+	
+	margin-bottom: 5px;
+
+}
+.list_amigos {
+
+	height: 200px !important;
+}

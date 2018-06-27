@@ -644,6 +644,29 @@ router.post('/api/v1/relacionarartista', (req, res) => {
     });
 });
 
+// ESTABELECER RELACIONAMENTOS DE AMIZADE
+router.post('/api/v1/relacionaramigos', (req, res) => {
+    // Inserir no BD em Grafos
+
+  const neodata = {id: req.body.id};
+  var params = {"id": neodata.id};
+  var neoquery = "MATCH (a:Usuario),(b:Usuario) WHERE a.id = '1' AND b.id = $id CREATE (a)-[r:AMIGO_DE]->(b) RETURN type(r), r.relevancia";
+  var neosession = neodriver.session();
+
+
+  neosession.run(neoquery, params)
+    .then(function(result) {
+      result.records.forEach(function(record) {
+          console.log(record.get('r.relevancia'));
+           // on application exit:
+        neodriver.close();
+        res.redirect('/usuarios.html');
+      })
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+});
 
 
 //RECOMENDAÇÕES DA HOME
@@ -662,7 +685,7 @@ router.get('/api/v1/gender', (req, res, next) => {
 
 
     // SQL Query > Select Data
-    const query = client.query("SELECT musica.titulo as titulo, foto_capa, artista.nome as artista, musica.arquivo_audio as link FROM USPotify.Tem_Genero, USPotify.Album, USPotify.Musica, USPotify.Artista, USPotify.Gravou WHERE tem_genero.nome_genero = 'Indie' AND tem_genero.id_musica = musica.id AND musica.id_album = album.id AND gravou.id_album = album.id AND gravou.id_artista = artista.id LIMIT 10;");
+    const query = client.query("SELECT musica.titulo as titulo, foto_capa, artista.nome as artista, musica.arquivo_audio as link FROM USPotify.Tem_Genero, USPotify.Album, USPotify.Musica, USPotify.Artista, USPotify.Gravou WHERE tem_genero.nome_genero = 'Indie' AND tem_genero.id_musica = musica.id AND musica.id_album = album.id AND gravou.id_album = album.id AND gravou.id_artista = artista.id LIMIT 8;");
     // Stream results back one row at a time
 
     query.on('row', (row) => {
@@ -679,6 +702,7 @@ router.get('/api/v1/gender', (req, res, next) => {
   });
 });
 
+
 router.get('/api/v1/sugartists', (req, res, next) => {
 
   const results = [];
@@ -689,6 +713,7 @@ router.get('/api/v1/sugartists', (req, res, next) => {
   const collectedArtists = [];
 
   neoresult.subscribe({
+
     onNext: record => {
 
       const id = record.get(0);
@@ -696,38 +721,93 @@ router.get('/api/v1/sugartists', (req, res, next) => {
     },
     onCompleted: () => {
       neosession.close();
-      console.log('Ids: ' + collectedArtists.join(', '));
+      console.log('Ids: [' + collectedArtists.join(', ') + ']');
+
+      // querying name and profile photo from these artists
+      pg.connect(config, (err, client, done) => {
+        // Handle connection errors
+        if(err) {
+          done();
+          console.log(err);
+          return res.status(500).json({success: false, data: err});
+        }
+
+
+        // SQL Query > Select Data
+        const query = client.query("SELECT nome, foto_perfil FROM USPotify.Artista WHERE id IN (" + collectedArtists.join(', ') + ") LIMIT 8;");
+        // Stream results back one row at a time
+
+        query.on('row', (row) => {
+          results.push(row);
+        });
+
+
+        console.log(results);
+        // After all data is returned, close connection and return results
+        query.on('end', () => {
+          done();
+          return res.json(results);
+        });
+      });
     },
     onError: error => {
       console.log(error);
     }
   });
+});
 
-  console.log(collectedArtists);
 
-  pg.connect(config, (err, client, done) => {
-    // Handle connection errors
-    if(err) {
-      done();
-      console.log(err);
-      return res.status(500).json({success: false, data: err});
+
+router.get('/api/v1/sugfriends', (req, res, next) => {
+
+  const results = [];
+  // Get a Postgres client from the connection pool
+
+  const neosession = neodriver.session();
+  const neoresult = neosession.run("MATCH (:Usuario { id: '1' })-[AMIGO_DE]->(usuario) RETURN usuario.id");
+  const collectedFriends = [];
+
+  neoresult.subscribe({
+
+    onNext: record => {
+
+      const id = record.get(0);
+      collectedFriends.push(id);
+    },
+    onCompleted: () => {
+      neosession.close();
+      console.log('Ids: [' + collectedFriends.join(', ') + ']');
+
+      // querying name and profile photo from these artists
+      pg.connect(config, (err, client, done) => {
+        // Handle connection errors
+        if(err) {
+          done();
+          console.log(err);
+          return res.status(500).json({success: false, data: err});
+        }
+
+
+        // SQL Query > Select Data
+        const query = client.query("SELECT nome, foto_perfil FROM USPotify.Usuario WHERE id IN (" + collectedFriends.join(', ') + ") LIMIT 8;");
+        // Stream results back one row at a time
+
+        query.on('row', (row) => {
+          results.push(row);
+        });
+
+
+        console.log(results);
+        // After all data is returned, close connection and return results
+        query.on('end', () => {
+          done();
+          return res.json(results);
+        });
+      });
+    },
+    onError: error => {
+      console.log(error);
     }
-
-    // SQL Query > Select Data
-    const query = client.query("SELECT musica.titulo as titulo, foto_capa, artista.nome as artista, musica.arquivo_audio as link FROM USPotify.Tem_Genero, USPotify.Album, USPotify.Musica, USPotify.Artista, USPotify.Gravou WHERE tem_genero.nome_genero = 'Indie' AND tem_genero.id_musica = musica.id AND musica.id_album = album.id AND gravou.id_album = album.id AND gravou.id_artista = artista.id LIMIT 10;");
-    // Stream results back one row at a time
-
-    query.on('row', (row) => {
-      results.push(row);
-    });
-
-
-    console.log(results);
-    // After all data is returned, close connection and return results
-    query.on('end', () => {
-      done();
-      return res.json(results);
-    });
   });
 });
 
