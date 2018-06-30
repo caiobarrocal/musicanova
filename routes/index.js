@@ -21,7 +21,6 @@ const config = {
     ssl: true
 };
 
-// const connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/uspotify';
 /* GET home page. */
 router.get('/', (req, res, next) => {
   res.sendFile('index.html');
@@ -201,16 +200,7 @@ router.post('/api/v1/playlist', (req, res, next) => {
     client.query('INSERT INTO USPotify.Playlist(id, nome, descricao, data_criacao, foto, publica, id_criador, colaborativa, duracao, num_seguidores) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)',
     [data.id, data.nome, data.desc, data.datac, data.foto, data.pub, data.criador, data.colab, data.dur, data.segs]);
     // SQL Query > Select Data
-    const query = client.query('SELECT * FROM USPotify.Playlist');
-    // Stream results back one row at a time
-    query.on('row', (row) => {
-      results.push(row);
-    });
-    // After all data is returned, close connection and return results
-    query.on('end', () => {
-      done();
-      return res.json(results);
-    });
+    res.redirect('/playlists.html');
   });
 });
 
@@ -553,6 +543,7 @@ router.post('/api/v1/updateplaylist', (req, res) => {
 
 // BUSCAS
 
+/*
 router.post('/api/v1/searchalbum', (req, res) => {
     const searchString = ['%' + req.body.searchString + '%'];
 
@@ -590,7 +581,7 @@ router.post('/api/v1/searchartist', (req, res) => {
         });
     });
 });
-
+*/
 router.post('/api/v1/searchmusic', (req, res) => {
     const searchString = ['%' + req.body.searchString + '%'];
 
@@ -801,7 +792,7 @@ router.get('/api/v1/sugfriends', (req, res, next) => {
     }
   });
 });
-
+/*
 router.post('/api/v1/searchplaylist', (req, res) => {
     const searchString = ['%' + req.body.searchString + '%'];
 
@@ -820,5 +811,5 @@ router.post('/api/v1/searchplaylist', (req, res) => {
         });
     });
 });
-
+*/
 module.exports = router;
